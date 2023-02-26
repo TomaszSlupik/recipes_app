@@ -5,17 +5,23 @@ export default function useLogin () {
 
 
     const loginContext = useContext(LoginContext)
-    const login = loginContext.isLogin
+    const login = loginContext.user
 
 
-    const setLogin = (value) => {
+    const setLogin = (user) => {
 
-        if (value) {
-            loginContext.logout()
+        if (user) {
+            loginContext.login(user)
+                window.localStorage.setItem('token', JSON.stringify(user))
+            
         }
         else {
-            loginContext.login()
+            loginContext.logout()
+            window.localStorage.removeItem('token')
+           
         }
+
+      
     }
 
     return [login, setLogin]

@@ -1,0 +1,45 @@
+.header {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    &__img {
+        position: relative;
+        width: 100vw;
+        height: 200px;
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+@media only (min-width: 576px) {
+    .header {
+        &__img {
+            height: 370px;
+        }
+    }    
+}
+
+@media only (min-width: 768px) {
+    .header {
+        &__img {
+            height: 400px;
+        }
+    }    
+}
+
+@media only (min-width: 992px) {
+    .header {
+        &__img {
+            height: 450px;
+        }
+    }    
+}
+
+
+@media only (min-width: 992px) {
+    .header {
+        &__img {
+            height: 580px;
+        }
+    }    
+}

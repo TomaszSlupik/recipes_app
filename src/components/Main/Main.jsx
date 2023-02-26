@@ -1,5 +1,5 @@
 import './Main.scss'
-import React, { useReducer } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import LoginContext from '../../context/loginContext'
 import Menu from '../Menu/Menu'
 
@@ -8,16 +8,16 @@ import Menu from '../Menu/Menu'
 const reducer = (state, action) => {
     switch (action.type) {
         case 'login' : 
-            return {...state, isLogin: true}
+            return {...state, user: action.user}
         case 'logout' : 
-            return {...state, isLogin: false}
+            return {...state, user: null}
         default:
             throw new Error ('Brak akcji' + action.type)
     }
 }
 
 const initialState = {
-  isLogin: false
+  user: JSON.parse(window.localStorage.getItem('token')) ??  null
 }
 
 export default function Main() {
@@ -25,11 +25,12 @@ export default function Main() {
 // Czy użytkownik jest zalogowany 
 const [state, dispatch] = useReducer(reducer, initialState)
 
+
   return (
     <div>
         <LoginContext.Provider
-        value={{isLogin: state.isLogin,
-        login: () => dispatch ({type: 'login'}),
+        value={{user: state.user,
+        login: (user) => dispatch ({type: 'login', user}),
         logout: () => dispatch({type: 'logout'})
         }}
         >
