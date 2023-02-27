@@ -11,10 +11,10 @@ export default function Paneluser() {
 
   return (
     <>
-    <Nav />
     <div>
         {email}
     </div>
+    <Nav />
     </>
     
   )

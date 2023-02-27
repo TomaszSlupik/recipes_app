@@ -1,6 +1,8 @@
 import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import Addmeals from '../Addmeals/Addmeals';
+import Showmeals from '../Showmeals/Showmeals';
+
 
 export default function Nav() {
 
@@ -29,6 +31,7 @@ const closeAddMeals = () => {
             openAddMeals={openAddMeals}
             closeAddMeals={closeAddMeals}
             />
+            <Showmeals />
     </div>
   )
 }
