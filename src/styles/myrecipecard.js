@@ -23,12 +23,12 @@ const Myrecipecard = styled('div')(({theme}) => ({
         margin: '0.8em 0.8em'
     }, 
     [theme.breakpoints.up('xl')] : {
-        width: '345px', 
+        width: '550px', 
         height: '300px', 
         margin: '0.8em 0.8em'
     }, 
     [theme.breakpoints.up('xxl')] : {
-        width: '550px', 
+        width: '600px', 
         height: '300px', 
         margin: '0.8em 0.8em'
     }, 

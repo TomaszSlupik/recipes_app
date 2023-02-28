@@ -5,8 +5,11 @@ import Header from '../Header/Header'
 import Login from '../Login/Login'
 import Register from '../Register/Register'
 import Paneluser from '../Paneluser/Paneluser'
+import themeColor from '../../theme/themecolor'
+import { ThemeProvider } from '@emotion/react';
+import './Menu.scss'
 
-export default function Menu() {
+export default function Menu({colorTheme}) {
 
 // Okno Logowania 
 const [openWindowLogin, setOpenWindowLogin] = useState(false)
@@ -48,39 +51,49 @@ const loginUser = (e) => {
 
 
   return (
-    <div>
+    <div className='menu'>
+        
         {
             login ? 
             (
                 <>
-                 <div
+                 <Button
                 onClick={logoutUser}
-                >Wyloguj</div>
+                >Wyloguj</Button>
                 <Paneluser />
                 </>
             )
             :
             (
                 <>
-                <Header />
-                <Button
-                onClick={openLogin}
-                >Zaloguj</Button>
-                <Login
-                openWindowLogin={openWindowLogin}
-                closeLogin={closeLogin}
-                loginUser={loginUser}
-                />
-                <Button
-                onClick={openRegister}
-                >
-                    Rejestracja
-                </Button>
-                <Register
-                openWindowRegister={openWindowRegister}
-                closeRegister={closeRegister}
-                loginUser={loginUser}
-                />
+                <ThemeProvider theme={themeColor}>
+                    <Header />
+                    <div className='menu__login'>
+                    <Button
+                    variant="contained"
+                    color={colorTheme}
+                    onClick={openLogin}
+                    >Zaloguj</Button>
+                    <Login
+                    openWindowLogin={openWindowLogin}
+                    closeLogin={closeLogin}
+                    loginUser={loginUser}
+                    />
+                    <Button
+                    variant="contained"
+                    color={colorTheme}
+                    onClick={openRegister}
+                    >
+                        Rejestracja
+                    </Button>
+                    </div>
+                    
+                    <Register
+                    openWindowRegister={openWindowRegister}
+                    closeRegister={closeRegister}
+                    loginUser={loginUser}
+                    />
+                </ThemeProvider>
                 </>
                 
             )

@@ -1,0 +1,18 @@
+.addMeals {
+    &__namemeal {
+        margin-bottom: 0.6em;
+    }
+    &__box {
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.6em;
+        margin-bottom: 0.6em;
+        &-add {
+            margin-top: 0.6em;
+        }
+    }
+    &__calendar {
+        margin-top: 1.6em;
+    }
+
+}

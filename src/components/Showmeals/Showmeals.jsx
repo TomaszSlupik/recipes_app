@@ -7,6 +7,9 @@ import axios from '../../firebase/axios'
 import Myrecipecard from '../../styles/myrecipecard';
 import Card from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
+import CardActions from '@mui/material/CardActions';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import Button from '@mui/material/Button';
 
 export default function Showmeals() {
 
@@ -35,6 +38,8 @@ export default function Showmeals() {
         readData()
     }, [])
 
+    //   Style:
+
     const ImageSrc = styled('span')({
         position: 'absolute',
         left: 0,
@@ -57,6 +62,16 @@ export default function Showmeals() {
         opacity: 0.4,
         transition: theme.transitions.create('opacity'),
       }));
+
+      const style = {
+        footer: {
+            position: 'absolute', width: '100%', height: '20%', bottom: '0%', backgroundColor: '#fff'
+        }, 
+        btnfooter: {
+            position: 'absolute', right: '3%'
+        }
+      }
+
     
   return (
     <div>
@@ -72,6 +87,14 @@ export default function Showmeals() {
                         {el.namemeal}
                         <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
                         <ImageBackdrop className="MuiImageBackdrop-root" />
+
+                        <CardActions style={style.footer}>
+                            <Button
+                            style={style.btnfooter} 
+                            size="small">Zobacz
+                            <DinnerDiningIcon />
+                            </Button>
+                        </CardActions>
                         </Card>
                         </Myrecipecard>
                         </Grid>
@@ -82,6 +105,9 @@ export default function Showmeals() {
         </ThemeProvider>
         </Grid>
         </Box>
+        {
+        allrecipes.map(el => el.data)
+        }
     </div>
   )
 }

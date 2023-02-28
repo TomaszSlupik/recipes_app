@@ -1,5 +1,5 @@
 import './Main.scss'
-import React, { useEffect, useReducer } from 'react'
+import React, { useState, useReducer } from 'react'
 import LoginContext from '../../context/loginContext'
 import Menu from '../Menu/Menu'
 
@@ -24,7 +24,8 @@ export default function Main() {
 
 // Czy użytkownik jest zalogowany 
 const [state, dispatch] = useReducer(reducer, initialState)
-
+// Główny kolor
+const [colorTheme, setColorTheme] = useState('primary')
 
   return (
     <div>
@@ -33,10 +34,8 @@ const [state, dispatch] = useReducer(reducer, initialState)
         login: (user) => dispatch ({type: 'login', user}),
         logout: () => dispatch({type: 'logout'})
         }}
-        >
-        
-        <Menu />
-
+        >     
+        <Menu colorTheme={colorTheme}/>
         </LoginContext.Provider>
     </div>
   )

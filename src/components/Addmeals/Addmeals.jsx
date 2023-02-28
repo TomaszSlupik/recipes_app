@@ -31,10 +31,16 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import axios from '../../firebase/axios'
 import useLogin from '../../hooks/useLogin'
-import simpleaxios from 'axios';
 import {  ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {storage} from '../../firebase/config'
 import Avatar from '@mui/material/Avatar';
+import moment from 'moment/moment'
+import './Addmeals.scss'
+import dayjs from 'dayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import Stack from '@mui/material/Stack';
 
 
 
@@ -48,6 +54,12 @@ export default function Addmeals({addMeals, closeAddMeals}) {
 const [namemeal, setNameMeal] = useState('')
 const [prepare, setPrepare] = useState('')
 const [time, setTime] = useState('')
+const [dateDdd, setDataAdd] = React.useState(moment());
+
+const handleChange = (newValue) => {
+  setDataAdd(newValue);
+};
+
 
 const Input = styled(MuiInput)`
   width: 52px;
@@ -81,9 +93,14 @@ const [ingredients, setIngredients] = useState([])
 const [image, setImage] = useState(null)
 const [url, setUrl] = useState(null)
 
-
+// Dodanie zdjęcia do Storage
 const addPhoto = () => {
-    const imageRef = ref(storage, 'image')
+
+  const now = moment()
+  const nowFormat = now.format('YYYY-MM-DD-HH-MM-SS')
+
+  
+    const imageRef = ref(storage, `images${nowFormat}`)
     uploadBytes(imageRef, image).then(() => {
       getDownloadURL(imageRef)
       .then((url) => {
@@ -121,6 +138,7 @@ const deleteIngredients = (id) => {
 }
 
 // Dodawanie Przepisu do Backendu 
+
 const addRecipes = async (e) => {
     e.preventDefault()
        try {
@@ -132,8 +150,10 @@ const addRecipes = async (e) => {
               quantity: ingredients.map(el => el.quantity),
               unit: ingredients.map(el => el.unit),
               image: url, 
+              data: dateDdd
             })
             closeAddMeals()
+           
        }
 
        catch (ex) {
@@ -144,7 +164,7 @@ const addRecipes = async (e) => {
 
 
   return (
-    <div>
+    <div className='addMeals'>
         <Dialog
         open={addMeals}
         TransitionComponent={Transition}
@@ -156,25 +176,32 @@ const addRecipes = async (e) => {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Przepis zostanie dodany do Bazy
+              <div className="addMeals__namemeal">
                 <TextField
-                id="standard-multiline-flexible"
-                label="Nazwa posiłku"
-                value={namemeal}
-                onChange={e => setNameMeal(e.target.value)}
-                multiline
-                maxRows={4}
-                variant="standard"
-                />
+                  id="standard-multiline-flexible"
+                  label="Wpisz nazwę posiłku"
+                  value={namemeal}
+                  onChange={e => setNameMeal(e.target.value)}
+                  multiline
+                  maxRows={4}
+                  variant="standard"
+                  />
+              </div>
+               <div className="addMeals__prepare">
+                  <TextField
+                    sty={{width: '100%'}}
+                    id="outlined-multiline-static"
+                    label="Sposób przyrządzenia"
+                    value={prepare}
+                    onChange={e=> setPrepare(e.target.value)}
+                    multiline
+                    rows={4}
+                    />
+               </div>
 
-                <TextField
-                id="outlined-multiline-static"
-                label="Sposób przyrządzenia"
-                value={prepare}
-                onChange={e=> setPrepare(e.target.value)}
-                multiline
-                rows={4}
-                />
-                <div>
+            
+                <div className='addMeals__box'>
+                <Paper elevation={3}>
                 <TextField
                 id="standard-multiline-flexible"
                 label="Składnik"
@@ -196,9 +223,12 @@ const addRecipes = async (e) => {
                 }}
                 variant="standard"
                 />
-
-              <FormControl sx={{ m: 1 }} variant="standard">
-                      <InputLabel id="demo-customized-select-label">Jednostka</InputLabel>
+                  <div className="addMeals__box-add">
+                  <FormControl 
+                  style={{width: '60%'}}
+                  sx={{ m: 2 }} variant="standard">
+                      <InputLabel 
+                      id="demo-customized-select-label">Jednostka</InputLabel>
                       <Select
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
@@ -220,9 +250,12 @@ const addRecipes = async (e) => {
                 <AddIcon       
                 />
                 </Fab>
+                  </div>
+                  </Paper>
                 </div>
 
                 <Paper 
+                style={{minHeight: '150px', marginBottom: '0.4em'}}
                 elevation={3}>
                 Twoje składniki:
                
@@ -310,6 +343,18 @@ const addRecipes = async (e) => {
                    <Avatar alt={namemeal} src={url} />
                 </div>
                 
+                <div className="addMeals__calendar">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <Stack spacing={3}>
+                    <DateTimePicker
+                      label="Date&Time picker"
+                      value={dateDdd}
+                      onChange={handleChange}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
+                    </Stack>
+                    </LocalizationProvider>
+                </div>
 
 
           </DialogContentText>

@@ -20,6 +20,7 @@ const closeAddMeals = () => {
 
   return (
     <div>
+          
             <Button
             onClick={openAddMeals}
             >
