@@ -1,0 +1,13 @@
+.paneluser {
+    position: relative;
+    width: 100vw;
+    &__icon {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        &-email {
+            font-size: 0.8rem;
+            margin-left: 0.6em;
+        }
+    }
+}

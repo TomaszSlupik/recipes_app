@@ -2,6 +2,10 @@ import './Main.scss'
 import React, { useState, useReducer } from 'react'
 import LoginContext from '../../context/loginContext'
 import Menu from '../Menu/Menu'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Nav from '../Nav/Nav';
+import Login from '../Login/Login';
+import Details from '../Details/Details';
 
 
 // Reducer do logowania 
@@ -35,7 +39,13 @@ const [colorTheme, setColorTheme] = useState('primary')
         logout: () => dispatch({type: 'logout'})
         }}
         >     
-        <Menu colorTheme={colorTheme}/>
+        <Router>
+          <Routes>
+            <Route path='/' element={<Menu colorTheme={colorTheme}/>} />
+            <Route path='/' element={<Login/>} />
+            <Route path='/:name' element={<Details />} />
+          </Routes>
+        </Router>
         </LoginContext.Provider>
     </div>
   )

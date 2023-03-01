@@ -44,6 +44,7 @@ import Stack from '@mui/material/Stack';
 
 
 
+
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
@@ -366,7 +367,6 @@ const addRecipes = async (e) => {
           <Button 
           onClick={addRecipes}
           >Dodaj</Button>
-          
         </DialogActions>
       </Dialog>
 

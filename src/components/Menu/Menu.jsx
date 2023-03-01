@@ -8,6 +8,7 @@ import Paneluser from '../Paneluser/Paneluser'
 import themeColor from '../../theme/themecolor'
 import { ThemeProvider } from '@emotion/react';
 import './Menu.scss'
+import Paper from '@mui/material/Paper';
 
 export default function Menu({colorTheme}) {
 
@@ -48,6 +49,10 @@ const loginUser = (e) => {
     setLogin(true)
 }
 
+const style = {
+    btn: {width: '135px'},
+    paper: {minWidth: '200px', minHeight: '200px', marginBottom: '1em', padding: '0.3em 0.4em'}
+}
 
 
   return (
@@ -55,12 +60,14 @@ const loginUser = (e) => {
         
         {
             login ? 
-            (
+            ( 
                 <>
-                 <Button
-                onClick={logoutUser}
-                >Wyloguj</Button>
-                <Paneluser />
+                 <ThemeProvider theme={themeColor}>
+                    <Button
+                    onClick={logoutUser}
+                    >Wyloguj</Button>
+                    <Paneluser colorTheme={colorTheme}/>
+                </ThemeProvider>
                 </>
             )
             :
@@ -69,23 +76,38 @@ const loginUser = (e) => {
                 <ThemeProvider theme={themeColor}>
                     <Header />
                     <div className='menu__login'>
-                    <Button
-                    variant="contained"
-                    color={colorTheme}
-                    onClick={openLogin}
-                    >Zaloguj</Button>
-                    <Login
-                    openWindowLogin={openWindowLogin}
-                    closeLogin={closeLogin}
-                    loginUser={loginUser}
-                    />
-                    <Button
-                    variant="contained"
-                    color={colorTheme}
-                    onClick={openRegister}
-                    >
-                        Rejestracja
-                    </Button>
+                        <div className="menu__login-text">
+                                <Paper 
+                            style={style.paper}
+                            elevation={3}>
+                                Aplikacja została stworzona dla miłośników gotowania.
+                                Jeżeli chcesz przeglądać przepisy oraz dodawać swoje, musisz zarejestrować się.
+                                Mając konto, możesz zalogować się. 
+                            </Paper>
+                        </div>
+                    <div className="menu__login-btn">
+                            <Button
+                            style={style.btn}
+                            variant="contained"
+                            color={colorTheme}
+                            onClick={openLogin}
+                            >Zaloguj</Button>        
+                            <Login
+                            openWindowLogin={openWindowLogin}
+                            closeLogin={closeLogin}
+                            loginUser={loginUser}
+                            />
+                            <div className="menu__login-btn--register">
+                            <Button
+                            style={style.btn}
+                            variant="contained"
+                            color={colorTheme}
+                            onClick={openRegister}
+                            >
+                                Rejestracja
+                            </Button>
+                    </div>
+                    </div> 
                     </div>
                     
                     <Register

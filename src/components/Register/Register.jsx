@@ -66,6 +66,11 @@ const submitRegister = async (e) => {
   }
 }
 
+const style = {
+  email: {marginTop: '0.5em'}, 
+  error: {marginTop: '0.5em'}
+}
+
 
   return (
     <div>
@@ -81,11 +86,12 @@ const submitRegister = async (e) => {
           <DialogContentText id="alert-dialog-slide-description">
             
           <TextField id="outlined-basic" label="E-mail" 
+          style={style.email}
           value={email}
           onChange={emailInput}
           variant="outlined" />
               
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">Password do aplikacji</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             type={showPassword ? 'text' : 'password'}
@@ -107,7 +113,9 @@ const submitRegister = async (e) => {
               
           {
             error ? 
-            <Alert severity="error">{error}</Alert>
+            <Alert
+            style={style.error}
+            severity="error">{error}</Alert>
             :
             error === null ?  
             (<div></div>)

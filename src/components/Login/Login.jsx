@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import mykey from '../../firebase/mykey';
 import useLogin from '../../hooks/useLogin';
+import Alert from '@mui/material/Alert';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -46,6 +47,9 @@ const passwordInputLogin = (e) => {
 
 }
 
+// Error przy logowaniu
+const [error, setError] = useState()
+
 // Logika do logowania 
 const [login, setLogin] = useLogin()
 
@@ -62,9 +66,13 @@ const loginAccept = async (e) => {
       closeLogin()
     }
     catch (ex) {
-      console.log(ex.response)
+      setError(ex.response.data.error.message)
     }
 } 
+
+const style = {
+  error: {marginTop: '0.5em'}
+}
 
   return (
     <div>
@@ -83,7 +91,7 @@ const loginAccept = async (e) => {
           onChange={emailInputLogin}
           id="outlined-basic" label="E-mail" variant="outlined" />
               
-          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <InputLabel htmlFor="outlined-adornment-password">Password do aplikacji</InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             type={showPassword ? 'text' : 'password'}
@@ -102,7 +110,17 @@ const loginAccept = async (e) => {
             }
             label="Password"
           />
-              
+              {
+            error ? 
+            <Alert 
+            style={style.error}
+            severity="error">{error}</Alert>
+            :
+            error === null ?  
+            (<div></div>)
+            :
+            <div></div>
+          }
         
           </DialogContentText>
         </DialogContent>
@@ -113,7 +131,6 @@ const loginAccept = async (e) => {
           <Button 
           onClick={loginAccept}
           >Zaloguj</Button>
-          
         </DialogActions>
       </Dialog>
     </div>

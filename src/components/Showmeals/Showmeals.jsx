@@ -10,6 +10,9 @@ import { styled } from '@mui/material/styles';
 import CardActions from '@mui/material/CardActions';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import Button from '@mui/material/Button';
+import { Link} from 'react-router-dom';
+import Details from '../Details/Details';
+import themeColor from '../../theme/themecolor';
 
 export default function Showmeals() {
 
@@ -37,6 +40,7 @@ export default function Showmeals() {
     useEffect(() => {
         readData()
     }, [])
+
 
     //   Style:
 
@@ -68,11 +72,10 @@ export default function Showmeals() {
             position: 'absolute', width: '100%', height: '20%', bottom: '0%', backgroundColor: '#fff'
         }, 
         btnfooter: {
-            position: 'absolute', right: '3%'
+            position: 'absolute', bottom: '10%', right: '3%', zIndex: 3
         }
       }
 
-    
   return (
     <div>
          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -89,11 +92,19 @@ export default function Showmeals() {
                         <ImageBackdrop className="MuiImageBackdrop-root" />
 
                         <CardActions style={style.footer}>
-                            <Button
-                            style={style.btnfooter} 
-                            size="small">Zobacz
-                            <DinnerDiningIcon />
-                            </Button>
+                                <Details allrecipes={allrecipes}/>
+                                
+                                <ThemeProvider theme={themeColor}>
+                                    <Link to={el.namemeal}>
+                                    <Button
+                                    variant="contained"
+                                    style={style.btnfooter} 
+                                    size="small">Zobacz
+                                    <DinnerDiningIcon />
+                                    </Button>
+                                    </Link>
+                                </ThemeProvider>
+
                         </CardActions>
                         </Card>
                         </Myrecipecard>
