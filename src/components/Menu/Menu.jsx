@@ -63,10 +63,8 @@ const style = {
             ( 
                 <>
                  <ThemeProvider theme={themeColor}>
-                    <Button
-                    onClick={logoutUser}
-                    >Wyloguj</Button>
-                    <Paneluser colorTheme={colorTheme}/>
+                    
+                    <Paneluser colorTheme={colorTheme} logoutUser={logoutUser}/>
                 </ThemeProvider>
                 </>
             )
@@ -82,7 +80,7 @@ const style = {
                             elevation={3}>
                                 Aplikacja została stworzona dla miłośników gotowania.
                                 Jeżeli chcesz przeglądać przepisy oraz dodawać swoje, musisz zarejestrować się.
-                                Mając konto, możesz zalogować się. 
+                                Mając konto, przejdź do panelu logowania. 
                             </Paper>
                         </div>
                     <div className="menu__login-btn">

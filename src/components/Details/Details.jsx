@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
 import './Details.scss'
 import { styled } from '@mui/material/styles';
+import moment from 'moment/moment'
 
 export default function Details() {
 
@@ -47,9 +48,25 @@ export default function Details() {
     const imgMeal = oneRecipe.map((el => el.image))
     const imgMealtoString = imgMeal.toString()
 
-    // --składniki
+    // --składnik
     const name_ingredients = oneRecipe.map((el => el.name_ingredients))
     const name_ingredientstoString = name_ingredients.toString()
+
+     // --ilość
+    const quantity = oneRecipe.map((el => el.quantity))
+    const quantitytoString = quantity.toString()
+
+    // jednostka
+     const unit = oneRecipe.map((el => el.unit))
+     const unittoString = unit.toString()
+
+    // -czas przygotownia
+    const time = oneRecipe.map((el => el.time))
+    const timeToString = time.toString()
+
+    // data
+     const data = oneRecipe.map((el => el.data))
+     const dataToString = data.toString()
 
 
     // style
@@ -76,7 +93,17 @@ export default function Details() {
         
         {preparetoString}
         <div className="details__ingredients">
-                {name_ingredientstoString}
+                <ul>
+                    <li>
+                        {name_ingredientstoString} {quantitytoString} {unittoString}
+                    </li>
+                </ul>
+        </div>
+        <div className="details__time">
+            {timeToString}
+        </div>
+        <div className="details__data">
+            {dataToString}
         </div>
     </div>
   )

@@ -22,6 +22,7 @@ const closeAddMeals = () => {
     <div>
           
             <Button
+            variant="contained"
             onClick={openAddMeals}
             >
                 Dodaj przepis

@@ -126,9 +126,11 @@ const style = {
         </DialogContent>
         <DialogActions>
           <Button 
+          variant='outlined'
           onClick={closeRegister}
           >Anuluj</Button>
           <Button 
+          variant="contained"
           onClick={submitRegister}
           >Akcteptuję</Button>
           

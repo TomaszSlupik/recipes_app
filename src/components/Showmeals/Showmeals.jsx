@@ -13,6 +13,21 @@ import Button from '@mui/material/Button';
 import { Link} from 'react-router-dom';
 import Details from '../Details/Details';
 import themeColor from '../../theme/themecolor';
+import './Showmeals.scss'
+import SettingsIcon from '@mui/icons-material/Settings';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
 export default function Showmeals() {
 
@@ -73,11 +88,36 @@ export default function Showmeals() {
         }, 
         btnfooter: {
             position: 'absolute', bottom: '10%', right: '3%', zIndex: 3
-        }
+        },
+        settings: {cursor: 'pointer', color: '#fff'}
       }
 
+    //   Setting
+    const [settingMenu, setSettingMenu] = useState(null)
+
+    const handleMenu = (e) => {
+        setSettingMenu(e.currentTarget)
+    }
+
+    const showInfoForUser = () => {
+        handleClickOpen()
+        setSettingMenu(null)
+    }
+
+    const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+    
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSettingMenu(null)
+  };
+
   return (
-    <div>
+    <div className='card'>
          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 2 }} > 
         <ThemeProvider theme={breakpoints}>
@@ -87,10 +127,75 @@ export default function Showmeals() {
                         <Grid item xs={12} sm={12} md={6} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
                         <Myrecipecard>
                         <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
-                        {el.namemeal}
+                        
                         <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
                         <ImageBackdrop className="MuiImageBackdrop-root" />
+                        <div className="card__header">
+                            {el.namemeal}
+                        </div>
+                        <div className="card__data">
+                            Data dodania: {el.data.substr(0,16)}
+                        </div>
+                        <div className="card__settings">
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleMenu}
+                            color="inherit"
+                        >
+                             <SettingsIcon
+                         color=''
+                         style={style.settings}
+                         /> 
+                            </IconButton>
+                        <Menu
+                        id="menu-appbar"
+                        anchorEl={settingMenu}
+                        anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                        }}
+                        open={Boolean(settingMenu)}
+                        // onClose={handleClose}
+                    >
+                        <MenuItem 
+                        onClick={showInfoForUser}
+                        >Usuń</MenuItem>
+                        <MenuItem 
+                        onClick={handleClose}
+                        >My account</MenuItem>
+                         <Dialog
+                            open={open}
+                            TransitionComponent={Transition}
+                            keepMounted
+                            onClose={handleClose}
+                            aria-describedby="alert-dialog-slide-description"
+                        >
+                            <DialogTitle>{"Czy napewno chcesz usunąć przepis z Bazy?"}</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText id="alert-dialog-slide-description">
+                                ..........
+                            </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button 
+                            variant="outlined"
+                            onClick={handleClose}>Anuluj</Button>
+                            <Button 
+                            variant='containded'
+                            onClick={handleClose}>Akcteptuję</Button>
+                            </DialogActions>
+                        </Dialog>
 
+                    </Menu>
+                        </div>
                         <CardActions style={style.footer}>
                                 <Details allrecipes={allrecipes}/>
                                 
@@ -116,9 +221,6 @@ export default function Showmeals() {
         </ThemeProvider>
         </Grid>
         </Box>
-        {
-        allrecipes.map(el => el.data)
-        }
     </div>
   )
 }

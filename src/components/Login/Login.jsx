@@ -126,9 +126,11 @@ const style = {
         </DialogContent>
         <DialogActions>
           <Button 
+          variant="outlined"
           onClick={closeLogin}
           >Anuluj</Button>
           <Button 
+          variant="contained"
           onClick={loginAccept}
           >Zaloguj</Button>
         </DialogActions>

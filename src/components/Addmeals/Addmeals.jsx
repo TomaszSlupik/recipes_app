@@ -41,8 +41,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
-
-
+import Alert from '@mui/material/Alert';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -139,10 +138,17 @@ const deleteIngredients = (id) => {
 }
 
 // Dodawanie Przepisu do Backendu 
+// + walidacja na formularz
+const [errNameMeal, seterrNameMeal] = useState('')
 
 const addRecipes = async (e) => {
     e.preventDefault()
-       try {
+    if (errNameMeal === '') {
+      seterrNameMeal('Proszę podać posiłek')
+  }
+  else {
+
+          try {
             await axios.post('/recipes.json', {
               namemeal: namemeal, 
               prepare: prepare,
@@ -153,13 +159,15 @@ const addRecipes = async (e) => {
               image: url, 
               data: dateDdd
             })
-            closeAddMeals()
-           
-       }
 
-       catch (ex) {
+            closeAddMeals()
+          
+      }
+
+      catch (ex) {
             console.log(ex.response)
-       }
+      }
+  }
     
 }
 
@@ -187,6 +195,17 @@ const addRecipes = async (e) => {
                   maxRows={4}
                   variant="standard"
                   />
+                  {
+                  errNameMeal === ''
+                  ?
+                  (
+                    <div></div>
+                  )
+                  :
+                  (<Alert 
+                  severity="error">{errNameMeal}
+                  </Alert>)
+                  }
               </div>
                <div className="addMeals__prepare">
                   <TextField
@@ -348,7 +367,7 @@ const addRecipes = async (e) => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <Stack spacing={3}>
                     <DateTimePicker
-                      label="Date&Time picker"
+                      label="Data utworzenia przepisu"
                       value={dateDdd}
                       onChange={handleChange}
                       renderInput={(params) => <TextField {...params} />}
@@ -356,15 +375,15 @@ const addRecipes = async (e) => {
                     </Stack>
                     </LocalizationProvider>
                 </div>
-
-
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button 
+          variant="outlined"
           onClick={closeAddMeals}
           >Anuluj</Button>
           <Button 
+          variant="contained"
           onClick={addRecipes}
           >Dodaj</Button>
         </DialogActions>
