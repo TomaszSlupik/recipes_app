@@ -93,11 +93,7 @@ export default function Details() {
         
         {preparetoString}
         <div className="details__ingredients">
-                <ul>
-                    <li>
-                        {name_ingredientstoString} {quantitytoString} {unittoString}
-                    </li>
-                </ul>
+              
         </div>
         <div className="details__time">
             {timeToString}

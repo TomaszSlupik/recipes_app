@@ -42,6 +42,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
+import { useNavigate } from 'react-router-dom';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -140,11 +141,22 @@ const deleteIngredients = (id) => {
 // Dodawanie Przepisu do Backendu 
 // + walidacja na formularz
 const [errNameMeal, seterrNameMeal] = useState('')
+const [errTime, setErrTime] = useState('')
+const [errUrl, setErrUrl] = useState('')
+
+
+const navigate = useNavigate()
 
 const addRecipes = async (e) => {
     e.preventDefault()
-    if (errNameMeal === '') {
+    if (namemeal === '') {
       seterrNameMeal('Proszę podać posiłek')
+  }
+  else if (time === 0 || time === ''){
+    setErrTime('Proszę podać czas')
+  }
+  else if (url === null) {
+    setErrUrl('Proszę wczytać zdjęcie')
   }
   else {
 
@@ -159,9 +171,16 @@ const addRecipes = async (e) => {
               image: url, 
               data: dateDdd
             })
-
+            setNameMeal('')
+            setPrepare('')
+            setTime('')
+            setName_ingredients('')
+            setQuantity('')
+            setUnit('')
+            setImage(null)
+            setUrl('')
             closeAddMeals()
-          
+            navigate('/')
       }
 
       catch (ex) {
@@ -207,19 +226,6 @@ const addRecipes = async (e) => {
                   </Alert>)
                   }
               </div>
-               <div className="addMeals__prepare">
-                  <TextField
-                    sty={{width: '100%'}}
-                    id="outlined-multiline-static"
-                    label="Sposób przyrządzenia"
-                    value={prepare}
-                    onChange={e=> setPrepare(e.target.value)}
-                    multiline
-                    rows={4}
-                    />
-               </div>
-
-            
                 <div className='addMeals__box'>
                 <Paper elevation={3}>
                 <TextField
@@ -274,6 +280,17 @@ const addRecipes = async (e) => {
                   </Paper>
                 </div>
 
+                <div className="addMeals__prepare">
+                  <TextField
+                    sty={{width: '100%'}}
+                    id="outlined-multiline-static"
+                    label="Sposób przyrządzenia"
+                    value={prepare}
+                    onChange={e=> setPrepare(e.target.value)}
+                    multiline
+                    rows={4}
+                    />
+               </div>
                 <Paper 
                 style={{minHeight: '150px', marginBottom: '0.4em'}}
                 elevation={3}>
@@ -345,6 +362,18 @@ const addRecipes = async (e) => {
                       />
                     </Grid>
                   </Grid>
+                  {
+                  errTime === ''
+                  ?
+                  (
+                    <div></div>
+                  )
+                  :
+                  (<Alert 
+                  severity="error">{errTime}
+                  </Alert>)
+                }
+
                 </Box>
 
                 <div>
@@ -361,6 +390,18 @@ const addRecipes = async (e) => {
                   onClick={addPhoto}
                   variant="contained">Dodaj</Button>
                    <Avatar alt={namemeal} src={url} />
+
+                   {
+                  errUrl === ''
+                  ?
+                  (
+                    <div></div>
+                  )
+                  :
+                  (<Alert 
+                  severity="error">{errUrl}
+                  </Alert>)
+                }
                 </div>
                 
                 <div className="addMeals__calendar">

@@ -24,6 +24,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import Editmeals from '../Editmeals/Editmeals';
+
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -89,17 +92,24 @@ export default function Showmeals() {
         btnfooter: {
             position: 'absolute', bottom: '10%', right: '3%', zIndex: 3
         },
-        settings: {cursor: 'pointer', color: '#fff'}
+        settings: {cursor: 'pointer', color: '#fff'}, 
+        bin: {color: 'red'}, 
+        menu:{width: '100px'}
       }
 
-    //   Setting
+    //   Setting - do usuwania i edycji 
     const [settingMenu, setSettingMenu] = useState(null)
+    const [clickMeal, setClickMeal] = useState()
+    const [id, setId] = useState()
 
-    const handleMenu = (e) => {
+    const handleMenu = (e, id, namemeal) => {
         setSettingMenu(e.currentTarget)
+        setId(id)
+        setClickMeal(namemeal)
     }
 
     const showInfoForUser = () => {
+       
         handleClickOpen()
         setSettingMenu(null)
     }
@@ -108,10 +118,40 @@ export default function Showmeals() {
 
   const handleClickOpen = () => {
     setOpen(true);
-    
   };
 
-  const handleClose = () => {
+  const handleClickClose = () => {
+    setOpen(false);
+  };
+
+// Panel edycji 
+const [editOpen, setEditOpen] = useState(false)
+
+const handleOpenEdit = () => {
+    setEditOpen(true)
+    setSettingMenu(null)
+}
+
+const handleCloseEdit =  () => {
+    setEditOpen(false)
+}
+
+// Edycja i zapis do bazy 
+
+const handleEdit =  () => {
+    // await axios.put(`/recipes/${id}.json`)
+    setEditOpen(false)
+}
+
+// Usuwanie przepisów z Bazy danych 
+  const handleDelete =  async () => {
+    try {
+        await axios.delete(`/recipes/${id}.json`)
+        setAllrecipes([...allrecipes].filter(el => el.id !== id))
+    }
+    catch (ex){
+        console.log(ex.response)
+    }
     setOpen(false);
     setSettingMenu(null)
   };
@@ -127,7 +167,6 @@ export default function Showmeals() {
                         <Grid item xs={12} sm={12} md={6} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
                         <Myrecipecard>
                         <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
-                        
                         <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
                         <ImageBackdrop className="MuiImageBackdrop-root" />
                         <div className="card__header">
@@ -142,7 +181,7 @@ export default function Showmeals() {
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
-                            onClick={handleMenu}
+                            onClick={(e) => handleMenu(e, el.id, el.namemeal)}
                             color="inherit"
                         >
                              <SettingsIcon
@@ -150,52 +189,63 @@ export default function Showmeals() {
                          style={style.settings}
                          /> 
                             </IconButton>
-                        <Menu
-                        id="menu-appbar"
-                        anchorEl={settingMenu}
-                        anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                        }}
-                        open={Boolean(settingMenu)}
-                        // onClose={handleClose}
-                    >
-                        <MenuItem 
-                        onClick={showInfoForUser}
-                        >Usuń</MenuItem>
-                        <MenuItem 
-                        onClick={handleClose}
-                        >My account</MenuItem>
-                         <Dialog
-                            open={open}
-                            TransitionComponent={Transition}
-                            keepMounted
-                            onClose={handleClose}
-                            aria-describedby="alert-dialog-slide-description"
-                        >
-                            <DialogTitle>{"Czy napewno chcesz usunąć przepis z Bazy?"}</DialogTitle>
-                            <DialogContent>
-                            <DialogContentText id="alert-dialog-slide-description">
-                                ..........
-                            </DialogContentText>
-                            </DialogContent>
-                            <DialogActions>
-                            <Button 
-                            variant="outlined"
-                            onClick={handleClose}>Anuluj</Button>
-                            <Button 
-                            variant='containded'
-                            onClick={handleClose}>Akcteptuję</Button>
-                            </DialogActions>
-                        </Dialog>
+                                        <ThemeProvider theme={themeColor}>
+                                        <Menu
+                                        key={index}
+                                        id="menu-appbar"
+                                        anchorEl={settingMenu}
+                                        anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                        }}
+                                        open={Boolean(settingMenu)}
+                                        // onClose={handleClose}
+                                    >
+                                        <MenuItem 
+                                        style={style.menu}
+                                        onClick={handleOpenEdit}
+                                        >Edytuj</MenuItem>
 
-                    </Menu>
-                        </div>
+                                        <Editmeals 
+                                        id={id}
+                                        clickMeal={clickMeal}
+                                        editOpen={editOpen}
+                                        handleEdit={handleEdit}
+                                        handleOpenEdit={handleOpenEdit} handleCloseEdit={handleCloseEdit}/>
+
+                                        <MenuItem 
+                                        onClick={showInfoForUser}
+                                        >Usuń</MenuItem>   
+                                         <Dialog
+                                            open={open}
+                                            TransitionComponent={Transition}
+                                            keepMounted
+                                            onClose={handleClickClose}
+                                            aria-describedby="alert-dialog-slide-description"
+                                        >
+                                            <DialogTitle>{"Czy napewno chcesz usunąć przepis z Bazy?"}</DialogTitle>
+                                            <DialogContent>
+                                            <DialogContentText id="alert-dialog-slide-description">
+                                                Przepis <span className='card__settings-meal'>{clickMeal}</span> zostanie usunięty
+                                            </DialogContentText>
+                                            </DialogContent>
+                                            <DialogActions>
+                                            <Button 
+                                            variant="outlined"
+                                            onClick={handleClickClose}>Anuluj</Button>
+                                            <Button 
+                                            variant="contained"
+                                            onClick={handleDelete}>Akcteptuję</Button>
+                                            </DialogActions>
+                                            </Dialog>
+                                        </Menu>
+                                    </ThemeProvider>
+                            </div>
                         <CardActions style={style.footer}>
                                 <Details allrecipes={allrecipes}/>
                                 
