@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
 import './Details.scss'
 import { styled } from '@mui/material/styles';
 import moment from 'moment/moment'
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import Button from '@mui/material/Button';
+import { style } from '@mui/system';
 
 export default function Details() {
 
@@ -82,25 +85,54 @@ export default function Details() {
         height: '100%'
       });
 
+    //   const style = {
+    //     btn: {width: '120px', height: '40px', position:'absolute', top: '4%', right: '4%', zIndex: '0'}
+    //   }
+
+    // //   Powrót 
+    // const navigate = useNavigate()
+
+    // const goToBack = () => {
+    //     navigate('/')
+    // }
+
   return (
+    <>
     <div className='details'>
-        <div className="details__header">
-            {namemealtoString}
-        </div>
-        <div className="details__img">
-            <ImageSrc className="details__img" style={{ backgroundImage: `url(${imgMealtoString})` }} />
-        </div>
-        
-        {preparetoString}
-        <div className="details__ingredients">
-              
-        </div>
-        <div className="details__time">
-            {timeToString}
-        </div>
-        <div className="details__data">
-            {dataToString}
-        </div>
-    </div>
+       
+       <div className="details__header">
+           {namemealtoString}
+           <Link to="/">
+       {/* <Button
+       style={style.btn}
+       variant='contained'
+       >
+           Powrót
+       <FastRewindIcon />
+       </Button>  */}
+       </Link>
+       </div>
+     
+
+   <div className="details__box">
+       <div className="details__img">
+           <ImageSrc className="details__img" style={{ backgroundImage: `url(${imgMealtoString})` }} />
+       </div>
+       <div className="details__prepare">
+       {preparetoString}
+       </div>
+   </div>
+   <div className="details__ingredients">
+         
+   </div>
+   <div className="details__time">
+       {timeToString}
+   </div>
+   <div className="details__data">
+       {dataToString}
+   </div>
+</div>
+    </>
+    
   )
 }

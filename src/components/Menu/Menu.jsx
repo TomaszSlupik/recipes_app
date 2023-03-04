@@ -64,7 +64,8 @@ const style = {
                 <>
                  <ThemeProvider theme={themeColor}>
                     
-                    <Paneluser colorTheme={colorTheme} logoutUser={logoutUser}/>
+                    <Paneluser 
+                    colorTheme={colorTheme} logoutUser={logoutUser}/>
                 </ThemeProvider>
                 </>
             )

@@ -30,13 +30,11 @@ import { styled } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import axios from '../../firebase/axios'
-import useLogin from '../../hooks/useLogin'
 import {  ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {storage} from '../../firebase/config'
 import Avatar from '@mui/material/Avatar';
 import moment from 'moment/moment'
 import './Addmeals.scss'
-import dayjs from 'dayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -55,7 +53,7 @@ export default function Addmeals({addMeals, closeAddMeals}) {
 const [namemeal, setNameMeal] = useState('')
 const [prepare, setPrepare] = useState('')
 const [time, setTime] = useState('')
-const [dateDdd, setDataAdd] = React.useState(moment());
+const [dateAdd, setDataAdd] = React.useState(moment());
 
 const handleChange = (newValue) => {
   setDataAdd(newValue);
@@ -84,7 +82,7 @@ const handleBlur = () => {
 };
 
 // Dodawanie składników do Karty 
-const [login] = useLogin()
+
 const [name_ingredients, setName_ingredients] = useState()
 const [quantity, setQuantity] = useState()
 const [unit, setUnit] = useState()
@@ -94,7 +92,7 @@ const [ingredients, setIngredients] = useState([])
 const [image, setImage] = useState(null)
 const [url, setUrl] = useState(null)
 
-// Dodanie zdjęcia do Storage
+// // Dodanie zdjęcia do Storage
 const addPhoto = () => {
 
   const now = moment()
@@ -169,7 +167,7 @@ const addRecipes = async (e) => {
               quantity: ingredients.map(el => el.quantity),
               unit: ingredients.map(el => el.unit),
               image: url, 
-              data: dateDdd
+              data: dateAdd
             })
             setNameMeal('')
             setPrepare('')
@@ -280,17 +278,6 @@ const addRecipes = async (e) => {
                   </Paper>
                 </div>
 
-                <div className="addMeals__prepare">
-                  <TextField
-                    sty={{width: '100%'}}
-                    id="outlined-multiline-static"
-                    label="Sposób przyrządzenia"
-                    value={prepare}
-                    onChange={e=> setPrepare(e.target.value)}
-                    multiline
-                    rows={4}
-                    />
-               </div>
                 <Paper 
                 style={{minHeight: '150px', marginBottom: '0.4em'}}
                 elevation={3}>
@@ -331,6 +318,19 @@ const addRecipes = async (e) => {
                     </Table> 
                 </Paper>
                
+
+                <div className="addMeals__prepare">
+                  <TextField
+                    sty={{width: '100%'}}
+                    id="outlined-multiline-static"
+                    label="Sposób przyrządzenia"
+                    value={prepare}
+                    onChange={e=> setPrepare(e.target.value)}
+                    multiline
+                    rows={4}
+                    />
+               </div>
+              
                 <Box sx={{ width: 250 }}>
                   <Typography id="input-slider" gutterBottom>
                     Czas [min]
@@ -377,6 +377,7 @@ const addRecipes = async (e) => {
                 </Box>
 
                 <div>
+                <div>Kliknij na kamerę i dodaj zdjęcie</div>
                   Dodaj zdjęcie
                   <IconButton color="primary" aria-label="upload picture" component="label">
                     <input hidden accept="image/*" type="file" 
@@ -385,12 +386,11 @@ const addRecipes = async (e) => {
                     onChange={e => setImage(e.target.files[0])}
                     />
                   </IconButton>
-                  <div>Kliknij na kamerę i dodaj zdjęcie</div>
+                  
                   <Button 
                   onClick={addPhoto}
                   variant="contained">Dodaj</Button>
                    <Avatar alt={namemeal} src={url} />
-
                    {
                   errUrl === ''
                   ?
@@ -409,7 +409,7 @@ const addRecipes = async (e) => {
                       <Stack spacing={3}>
                     <DateTimePicker
                       label="Data utworzenia przepisu"
-                      value={dateDdd}
+                      value={dateAdd}
                       onChange={handleChange}
                       renderInput={(params) => <TextField {...params} />}
                     />

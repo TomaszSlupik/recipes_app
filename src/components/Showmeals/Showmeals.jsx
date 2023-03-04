@@ -25,6 +25,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Editmeals from '../Editmeals/Editmeals';
+import Searchbar from '../Searchbar/Searchbar';
 
 
 
@@ -71,7 +72,7 @@ export default function Showmeals() {
         backgroundSize: 'cover',
         backgroundPosition: 'center 40%',
         width: '100%',
-        height: '100%'
+        height: '100%', 
       });
       
       const ImageBackdrop = styled('span')(({ theme }) => ({
@@ -87,7 +88,7 @@ export default function Showmeals() {
 
       const style = {
         footer: {
-            position: 'absolute', width: '100%', height: '20%', bottom: '0%', backgroundColor: '#fff'
+            position: 'absolute', width: '100%', height: '20%', bottom: '0%', backgroundColor: '#fff', zIndex: 1
         }, 
         btnfooter: {
             position: 'absolute', bottom: '10%', right: '3%', zIndex: 3
@@ -136,12 +137,6 @@ const handleCloseEdit =  () => {
     setEditOpen(false)
 }
 
-// Edycja i zapis do bazy 
-
-const handleEdit =  () => {
-    // await axios.put(`/recipes/${id}.json`)
-    setEditOpen(false)
-}
 
 // Usuwanie przepisów z Bazy danych 
   const handleDelete =  async () => {
@@ -156,8 +151,22 @@ const handleEdit =  () => {
     setSettingMenu(null)
   };
 
+// Szukanie Przepisów 
+
+const searchRecipe = (searchRecipeInput) => {
+    // console.log(searchRecipeInput)
+    console.log('hahaha', searchRecipeInput)
+}
+
+
   return (
     <div className='card'>
+        <div className="card__boxNav">
+                <div className="card__boxNav-search">
+                <Searchbar searchRecipe={searchRecipe}/>
+                </div>      
+    </div>
+        
          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 2 }} > 
         <ThemeProvider theme={breakpoints}>
@@ -215,8 +224,7 @@ const handleEdit =  () => {
                                         id={id}
                                         clickMeal={clickMeal}
                                         editOpen={editOpen}
-                                        handleEdit={handleEdit}
-                                        handleOpenEdit={handleOpenEdit} handleCloseEdit={handleCloseEdit}/>
+                                        handleCloseEdit={handleCloseEdit}/>
 
                                         <MenuItem 
                                         onClick={showInfoForUser}
@@ -247,9 +255,12 @@ const handleEdit =  () => {
                                     </ThemeProvider>
                             </div>
                         <CardActions style={style.footer}>
-                                <Details allrecipes={allrecipes}/>
+                                
                                 
                                 <ThemeProvider theme={themeColor}>
+                                    <Details 
+                                    allrecipes={allrecipes}/>
+                                    
                                     <Link to={el.namemeal}>
                                     <Button
                                     variant="contained"
