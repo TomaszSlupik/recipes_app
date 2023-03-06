@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
 import './Details.scss'
 import { styled } from '@mui/material/styles';
-import moment from 'moment/moment'
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import Button from '@mui/material/Button';
-import { style } from '@mui/system';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 export default function Details() {
 
@@ -85,16 +86,7 @@ export default function Details() {
         height: '100%'
       });
 
-    //   const style = {
-    //     btn: {width: '120px', height: '40px', position:'absolute', top: '4%', right: '4%', zIndex: '0'}
-    //   }
 
-    // //   Powrót 
-    // const navigate = useNavigate()
-
-    // const goToBack = () => {
-    //     navigate('/')
-    // }
 
   return (
     <>
@@ -102,15 +94,6 @@ export default function Details() {
        
        <div className="details__header">
            {namemealtoString}
-           <Link to="/">
-       {/* <Button
-       style={style.btn}
-       variant='contained'
-       >
-           Powrót
-       <FastRewindIcon />
-       </Button>  */}
-       </Link>
        </div>
      
 
@@ -123,10 +106,37 @@ export default function Details() {
        </div>
    </div>
    <div className="details__ingredients">
-         
+    <Table size="small" aria-label="a dense table">
+    <TableHead>
+    <TableRow>
+        <TableCell>Składnik</TableCell>
+        <TableCell align="right">Ilość</TableCell>
+        <TableCell align="right">Jednostka</TableCell>
+    </TableRow>
+    </TableHead>
+    <TableBody>
+            
+          
+                    <TableRow
+                     
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                    <TableCell component="th" scope="row">
+                        
+                    </TableCell>
+                    <TableCell align="right">{quantitytoString}</TableCell>
+                    <TableCell align="right">{unittoString}</TableCell>
+                    </TableRow>
+            
+  
+    </TableBody>
+</Table> 
    </div>
    <div className="details__time">
        {timeToString}
+   </div>
+   <div className="details__level">
+    
    </div>
    <div className="details__data">
        {dataToString}

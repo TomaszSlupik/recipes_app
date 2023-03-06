@@ -6,7 +6,7 @@ const Mysearch = styled('input')(({theme}) => ({
         width: '100%' ,
         borderRadius: '8px',
         [theme.breakpoints.up('xs')]: {
-            width: '6ch',
+            width: '10ch',
             '&:focus': {
               width: '20ch',
             },

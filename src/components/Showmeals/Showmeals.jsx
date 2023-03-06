@@ -154,16 +154,25 @@ const handleCloseEdit =  () => {
 // Szukanie Przepisów 
 
 const searchRecipe = (searchRecipeInput) => {
-    // console.log(searchRecipeInput)
-    console.log('hahaha', searchRecipeInput)
+    const searchRecipe = allrecipes.filter((el => 
+        el.namemeal.toLowerCase().includes(searchRecipeInput.toLowerCase())))
+    setAllrecipes(searchRecipe)
 }
+
+// Powrót do wszystkich przepisów
+
+const clikBackspace = (e) => {
+    if (e.key === 'Backspace') {
+        readData()
+    }
+} 
 
 
   return (
     <div className='card'>
         <div className="card__boxNav">
                 <div className="card__boxNav-search">
-                <Searchbar searchRecipe={searchRecipe}/>
+                <Searchbar searchRecipe={searchRecipe} clikBackspace={clikBackspace}/>
                 </div>      
     </div>
         

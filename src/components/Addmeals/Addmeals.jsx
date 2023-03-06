@@ -41,6 +41,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
+import { Card } from '@mui/material';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -87,10 +88,11 @@ const [name_ingredients, setName_ingredients] = useState()
 const [quantity, setQuantity] = useState()
 const [unit, setUnit] = useState()
 const [ingredients, setIngredients] = useState([])
+const [level, setLevel] = useState()
 
 // Storage dla zdjęcia 
 const [image, setImage] = useState(null)
-const [url, setUrl] = useState(null)
+const [url, setUrl] = useState('')
 
 // // Dodanie zdjęcia do Storage
 const addPhoto = () => {
@@ -167,6 +169,7 @@ const addRecipes = async (e) => {
               quantity: ingredients.map(el => el.quantity),
               unit: ingredients.map(el => el.unit),
               image: url, 
+              level: level,
               data: dateAdd
             })
             setNameMeal('')
@@ -175,6 +178,7 @@ const addRecipes = async (e) => {
             setName_ingredients('')
             setQuantity('')
             setUnit('')
+            setLevel('')
             setImage(null)
             setUrl('')
             closeAddMeals()
@@ -376,9 +380,12 @@ const addRecipes = async (e) => {
 
                 </Box>
 
-                <div>
-                <div>Kliknij na kamerę i dodaj zdjęcie</div>
-                  Dodaj zdjęcie
+                <div className='addMeals__addPhoto'>
+                  <Card>        
+                <div className='addMeals__addPhoto-header'>Aby wczytać zdjęcię musisz kliknąć na kamerę i wybrać zdjęcię przepisu. Następnie kliknij dodaj zdjęcie</div>
+                  {image !== null ? 
+                    <div className='addMeals__addPhoto-info'>Zdjęcie zostało poprawnie wczytane, kliknij przycisk Dodaj</div>
+                  : <div className='addMeals__addPhoto-add'>Dodaj zdjęcie</div>}
                   <IconButton color="primary" aria-label="upload picture" component="label">
                     <input hidden accept="image/*" type="file" 
                     onChange={e => setImage(e.target.files[0])}/>
@@ -390,7 +397,16 @@ const addRecipes = async (e) => {
                   <Button 
                   onClick={addPhoto}
                   variant="contained">Dodaj</Button>
-                   <Avatar alt={namemeal} src={url} />
+                  <div className="addMeals__addPhoto-footer">
+                   <Avatar style={{marginBottom: '0.5em', marginRight: '0.3em'}} alt={namemeal} src={url} />
+                   {
+                    url.startsWith('https://') && image !== null ?
+                    <div>Jest Ok!</div>
+                    :
+                    <div>Wczytaj zdjęcie</div>
+                  }
+                  </div>
+                 
                    {
                   errUrl === ''
                   ?
@@ -402,8 +418,26 @@ const addRecipes = async (e) => {
                   severity="error">{errUrl}
                   </Alert>)
                 }
+                </Card>
                 </div>
-                
+                <div className="addMeals__level">
+                <FormControl 
+                  style={{width: '60%'}}
+                  sx={{ m: 2 }} variant="standard">
+                <InputLabel 
+                      id="demo-customized-select-label">Stopień trudności</InputLabel>
+                      <Select
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        value={level}
+                        onChange={e => setLevel (e.target.value)}
+                      >
+                        <MenuItem value="easy">łatwy</MenuItem>
+                        <MenuItem value="medium">średni</MenuItem>
+                        <MenuItem value="hard">trudny</MenuItem>
+                      </Select>
+                </FormControl>
+                </div>
                 <div className="addMeals__calendar">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <Stack spacing={3}>

@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Nav from '../Nav/Nav';
 import Login from '../Login/Login';
 import Details from '../Details/Details';
+import useTitlewebside from '../../hooks/useTitlewebside';
 
 
 // Reducer do logowania 
@@ -30,6 +31,9 @@ export default function Main() {
 const [state, dispatch] = useReducer(reducer, initialState)
 // Główny kolor
 const [colorTheme, setColorTheme] = useState('primary')
+
+// Zmiana tytułu strony 
+useTitlewebside('Tomasz Słupik')
 
   return (
     <div>
