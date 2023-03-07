@@ -26,6 +26,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import Editmeals from '../Editmeals/Editmeals';
 import Searchbar from '../Searchbar/Searchbar';
+import Pagination from '../Pagination/Pagination';
 
 
 
@@ -167,6 +168,13 @@ const clikBackspace = (e) => {
     }
 } 
 
+// Paginacja 
+
+const [currentPage, setCurrentPage] = useState(1)
+const [postPerPage, setPostPerPage] = useState(6)
+const lastPostIndex = currentPage * postPerPage
+const firstPostIndex = lastPostIndex - postPerPage
+const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
 
   return (
     <div className='card'>
@@ -180,9 +188,9 @@ const clikBackspace = (e) => {
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 2 }} > 
         <ThemeProvider theme={breakpoints}>
             {
-                allrecipes.map((el, index) => {
+                currentPosts.map((el, index) => {
                     return (
-                        <Grid item xs={12} sm={12} md={6} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
+                        <Grid item xs={12} sm={12} md={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
                         <Myrecipecard>
                         <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
                         <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
@@ -287,7 +295,12 @@ const clikBackspace = (e) => {
                     )
                 })
             }
-                
+                <Pagination 
+                totalPost={allrecipes.length}
+                postPerPage={postPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                />
         </ThemeProvider>
         </Grid>
         </Box>

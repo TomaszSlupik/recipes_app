@@ -1,5 +1,6 @@
 {
-  "name": "myrecipes_app",
+  "homepage": "https://TomaszSlupik.github.io/recipes_app",
+  "name": "recipes_app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -14,15 +15,20 @@
     "axios": "^1.3.4",
     "dayjs": "^1.11.7",
     "firebase": "^9.17.1",
+    "jest": "^27.5.1",
     "moment": "^2.29.4",
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -45,5 +51,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "gh-pages": "^5.0.0"
   }
 }

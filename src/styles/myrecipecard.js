@@ -28,7 +28,7 @@ const Myrecipecard = styled('div')(({theme}) => ({
         margin: '0.8em 0.8em'
     }, 
     [theme.breakpoints.up('xxl')] : {
-        width: '600px', 
+        width: '500px', 
         height: '300px', 
         margin: '0.8em 0.8em'
     }, 

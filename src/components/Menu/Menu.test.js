@@ -1,10 +1,8 @@
-import { render, screen } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import Menu from "./Menu";
+import { render, screen } from '@testing-library/react'
+import Menu from '../../components/Menu/Menu'
 
-
-test('renders Zaloguj if user not exists', () => {
-    render(<Router><Menu /></Router>)
+test('renders zaloguj', () => {
+    render(<Menu />)
 
     const link = screen.getByText(/zaloguj/i)
     expect (link).toBeInTheDocument()

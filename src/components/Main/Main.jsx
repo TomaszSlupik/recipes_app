@@ -3,7 +3,6 @@ import React, { useState, useReducer } from 'react'
 import LoginContext from '../../context/loginContext'
 import Menu from '../Menu/Menu'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Nav from '../Nav/Nav';
 import Login from '../Login/Login';
 import Details from '../Details/Details';
 import useTitlewebside from '../../hooks/useTitlewebside';

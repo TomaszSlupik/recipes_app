@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import React, { useState } from 'react';
 import Addmeals from '../Addmeals/Addmeals';
 import Showmeals from '../Showmeals/Showmeals';
-
+import './Nav.scss'
 
 export default function Nav() {
 
@@ -19,15 +19,22 @@ const closeAddMeals = () => {
 
 
   return (
-    <div>
-          
-            <Button
+    <div className='nav'>
+          <div className="nav__header">
+          <Button
             variant="contained"
             onClick={openAddMeals}
             >
                 Dodaj przepis
             </Button>
+            <Button
+            style={{marginLeft: '0.5em'}}
+            variant="contained"
+            >
+                Opcje
+            </Button>
 
+          </div>
             <Addmeals
             addMeals={addMeals}
             openAddMeals={openAddMeals}
