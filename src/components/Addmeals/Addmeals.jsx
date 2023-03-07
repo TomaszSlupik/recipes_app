@@ -66,10 +66,14 @@ const Input = styled(MuiInput)`
 
 const handleSliderChange = (event, newTime) => {
   setTime(newTime);
+  setErrTime('Ok')
+  const errTimeAlert = document.querySelector('.errTimeAlert') 
+  errTimeAlert.style.display = 'none'
 };
 
 const handleInputChange = (event) => {
   setTime(event.target.value === '' ? '' : Number(event.target.value));
+
 };
 
 const handleBlur = () => {
@@ -128,7 +132,7 @@ const addingredients = (e) => {
 
     const allIngredients = [...ingredients, newIngredients]
     setIngredients(allIngredients)
-
+    setErrIngredients('Ok')
     const erringredientsAlert = document.querySelector('.erringredientsAlert')
     erringredientsAlert.style.display = 'none'
 
@@ -196,7 +200,8 @@ const addRecipes = async (e) => {
             setImage(null)
             setUrl('')
             closeAddMeals()
-            navigate('/')
+            navigate('/recipes_app')
+            window.location.reload(true)
       }
 
       catch (ex) {
@@ -217,6 +222,7 @@ const handlerNameMeal = (e) => {
 const handlerPrepare = (e) => {
   e.preventDefault()
   setPrepare(e.target.value)
+  setErrPrepare('Ok')
   const errPrepareAlert = document.querySelector('.errPrepareAlert')
   errPrepareAlert.style.display = 'none'
 }
@@ -224,6 +230,9 @@ const handlerPrepare = (e) => {
 const handlerLevel = (e) => {
     e.preventDefault()
     setLevel (e.target.value)
+    setErrLevel('OK')
+    const errLevelAlert = document.querySelector('.errLevelAlert')
+    errLevelAlert.style.display = 'none'
 }
 
 
@@ -329,7 +338,7 @@ const style = {
                 </div>
                 <div>
                 {
-                  erringredients === '' ?
+                  erringredients === '' ||  erringredients === 'Ok'?
                   (<div></div>)
                   :
                   (<Alert 
@@ -390,7 +399,7 @@ const style = {
                     />
                </div>
               {
-                errPrepare === '' 
+                errPrepare === '' || errPrepare === 'Ok'
                 ?
                 (
                   <div></div>
@@ -434,13 +443,14 @@ const style = {
                     </Grid>
                   </Grid>
                   {
-                  errTime === ''
+                  errTime === '' || errTime === 'Ok'
                   ?
                   (
                     <div></div>
                   )
                   :
                   (<Alert 
+                  className='errTimeAlert'
                   severity="error">{errTime}
                   </Alert>)
                 }
@@ -449,7 +459,7 @@ const style = {
 
                 <div className='addMeals__addPhoto'>
                   <Card>        
-                <div className='addMeals__addPhoto-header'>Aby wczytać zdjęcię musisz kliknąć na kamerę i wybrać zdjęcię przepisu. Następnie kliknij dodaj zdjęcie</div>
+                <div className='addMeals__addPhoto-header'>Aby wczytać zdjęcię musisz kliknąć na kamerę i wybrać zdjęcię przepisu. Następnie kliknij dodaj zdjęcie. Jeżeli zdjęcie pojawi się w miniaturce oznacza to, że zdjęcie zostało wczytane poprawnie</div>
                   {image !== null ? 
                     <div className='addMeals__addPhoto-info'>Zdjęcie zostało poprawnie wczytane, kliknij przycisk Dodaj</div>
                   : <div className='addMeals__addPhoto-add'>Dodaj zdjęcie</div>}
@@ -505,13 +515,14 @@ const style = {
                       </Select>
                 </FormControl>
                 {
-                  errLevel === ''
+                  errLevel === '' || errLevel === 'OK'
                   ?
                   (
                     <div></div>
                   )
                   :
                   (<Alert 
+                  className='errLevelAlert'
                   severity="error">{errLevel}
                   </Alert>)
                 }
