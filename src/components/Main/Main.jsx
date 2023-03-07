@@ -44,9 +44,9 @@ useTitlewebside('Tomasz Słupik')
         >     
         <Router>
           <Routes>
-            <Route path='/' element={<Menu colorTheme={colorTheme}/>} />
-            <Route path='/' element={<Login/>} />
-            <Route path='/:name' element={<Details />} />
+            <Route path='/recipes_app' element={<Menu colorTheme={colorTheme}/>} />
+            <Route path='/recipes_app' element={<Login/>} />
+            <Route path='recipes_app/:name' element={<Details />} />
           </Routes>
         </Router>
         </LoginContext.Provider>
