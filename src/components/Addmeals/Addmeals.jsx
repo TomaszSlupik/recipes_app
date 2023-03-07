@@ -7,8 +7,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import TextField from '@mui/material/TextField';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import Paper from '@mui/material/Paper';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -130,6 +128,10 @@ const addingredients = (e) => {
 
     const allIngredients = [...ingredients, newIngredients]
     setIngredients(allIngredients)
+
+    const erringredientsAlert = document.querySelector('.erringredientsAlert')
+    erringredientsAlert.style.display = 'none'
+
 }
 
 const deleteIngredients = (id) => {
@@ -140,8 +142,11 @@ const deleteIngredients = (id) => {
 
 // Dodawanie Przepisu do Backendu 
 // + walidacja na formularz
-const [errNameMeal, seterrNameMeal] = useState('')
+const [errNameMeal, setErrNameMeal] = useState('')
+const [erringredients, setErrIngredients]  = useState('')
+const [errPrepare, setErrPrepare] = useState('')
 const [errTime, setErrTime] = useState('')
+const [errLevel, setErrLevel] = useState('')
 const [errUrl, setErrUrl] = useState('')
 
 
@@ -150,10 +155,19 @@ const navigate = useNavigate()
 const addRecipes = async (e) => {
     e.preventDefault()
     if (namemeal === '') {
-      seterrNameMeal('Proszę podać posiłek')
+      setErrNameMeal('Proszę podać posiłek')
+  }
+  else if (erringredients === '') {
+    setErrIngredients('Proszę wybrać składnik')
+  }
+  else if (errPrepare === '') {
+    setErrPrepare('Proszę podać przepis')
   }
   else if (time === 0 || time === ''){
     setErrTime('Proszę podać czas')
+  }
+  else if (errLevel === '') {
+    setErrLevel('Proszę wybrać stopień trudności')
   }
   else if (url === null) {
     setErrUrl('Proszę wczytać zdjęcie')
@@ -192,6 +206,31 @@ const addRecipes = async (e) => {
     
 }
 
+// onchange
+const handlerNameMeal = (e) => {
+  e.preventDefault()
+  setNameMeal(e.target.value)
+  const errNameMealAlert = document.querySelector('.errNameMealAlert') 
+  errNameMealAlert.style.display = 'none'
+}
+
+const handlerPrepare = (e) => {
+  e.preventDefault()
+  setPrepare(e.target.value)
+  const errPrepareAlert = document.querySelector('.errPrepareAlert')
+  errPrepareAlert.style.display = 'none'
+}
+
+const handlerLevel = (e) => {
+    e.preventDefault()
+    setLevel (e.target.value)
+}
+
+
+const style = {
+  paper: {position: 'relative', display: 'flex', flexDirection: 'column', width: '100%'}
+}
+
 
   return (
     <div className='addMeals'>
@@ -211,7 +250,7 @@ const addRecipes = async (e) => {
                   id="standard-multiline-flexible"
                   label="Wpisz nazwę posiłku"
                   value={namemeal}
-                  onChange={e => setNameMeal(e.target.value)}
+                  onChange={handlerNameMeal}
                   multiline
                   maxRows={4}
                   variant="standard"
@@ -224,12 +263,19 @@ const addRecipes = async (e) => {
                   )
                   :
                   (<Alert 
+                  className='errNameMealAlert'
                   severity="error">{errNameMeal}
                   </Alert>)
                   }
               </div>
                 <div className='addMeals__box'>
-                <Paper elevation={3}>
+                <Paper 
+                style={style.paper}
+                elevation={3}>
+                <div className="addMeals__box-headerInfo">
+                  W polu składnik wpisz samą nazwę składnika, w polu ilość wybierz ilość posiłku oraz wybierz jednostkę i kliknij przycisk dodaj.
+                </div>
+                <div className="addMeals__box-field">
                 <TextField
                 id="standard-multiline-flexible"
                 label="Składnik"
@@ -251,6 +297,7 @@ const addRecipes = async (e) => {
                 }}
                 variant="standard"
                 />
+                </div>
                   <div className="addMeals__box-add">
                   <FormControl 
                   style={{width: '60%'}}
@@ -271,17 +318,26 @@ const addRecipes = async (e) => {
                       </Select>
                     </FormControl>
 
-                <Fab
-                color="primary"
+                <Button
+                variant='outlined'
                 onClick={addingredients}
                 >
-                <AddIcon       
-                />
-                </Fab>
+                  Dodaj
+                </Button>
                   </div>
                   </Paper>
                 </div>
-
+                <div>
+                {
+                  erringredients === '' ?
+                  (<div></div>)
+                  :
+                  (<Alert 
+                  className='erringredientsAlert'
+                  severity="error">{erringredients}
+                  </Alert>)
+                }
+                </div>
                 <Paper 
                 style={{minHeight: '150px', marginBottom: '0.4em'}}
                 elevation={3}>
@@ -321,7 +377,6 @@ const addRecipes = async (e) => {
                       </TableBody>
                     </Table> 
                 </Paper>
-               
 
                 <div className="addMeals__prepare">
                   <TextField
@@ -329,12 +384,24 @@ const addRecipes = async (e) => {
                     id="outlined-multiline-static"
                     label="Sposób przyrządzenia"
                     value={prepare}
-                    onChange={e=> setPrepare(e.target.value)}
+                    onChange={handlerPrepare}
                     multiline
                     rows={4}
                     />
                </div>
-              
+              {
+                errPrepare === '' 
+                ?
+                (
+                  <div></div>
+                )
+                :
+                (<Alert 
+                className='errPrepareAlert'
+                severity="error">{errPrepare}
+                </Alert>)
+
+              }
                 <Box sx={{ width: 250 }}>
                   <Typography id="input-slider" gutterBottom>
                     Czas [min]
@@ -430,13 +497,24 @@ const addRecipes = async (e) => {
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
                         value={level}
-                        onChange={e => setLevel (e.target.value)}
+                        onChange={handlerLevel}
                       >
                         <MenuItem value="easy">łatwy</MenuItem>
                         <MenuItem value="medium">średni</MenuItem>
                         <MenuItem value="hard">trudny</MenuItem>
                       </Select>
                 </FormControl>
+                {
+                  errLevel === ''
+                  ?
+                  (
+                    <div></div>
+                  )
+                  :
+                  (<Alert 
+                  severity="error">{errLevel}
+                  </Alert>)
+                }
                 </div>
                 <div className="addMeals__calendar">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
