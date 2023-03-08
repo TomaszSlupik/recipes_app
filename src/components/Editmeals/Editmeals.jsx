@@ -23,6 +23,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Stack from '@mui/material/Stack';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -36,6 +40,7 @@ const [changeNameMeal, setChangeNameMeal] = useState()
 const [changePrepare, setChangePrepare] = useState()
 const [changeTime, setChangeTime] = useState()
 const [changeUrl, setChangeUrl] = useState(null)
+const [changeLevel, setChangeLevel] = useState()
 const [changeData, setChangeData] = React.useState(moment());
 
 // Zmiana daty
@@ -54,6 +59,7 @@ const editThisMeal = async () => {
       prepare: changePrepare,
       time: changeTime,
       image: changeUrl, 
+      level: changeLevel,
       data: changeData
     })
 
@@ -168,6 +174,25 @@ const changeAddPhoto = () => {
           <div className="editmeals__avatar">
               <Avatar alt={changeNameMeal} src={changeUrl} />
           </div>
+          <Divider />
+            <div className="editmeals__level">
+            <FormControl 
+                  style={{width: '60%'}}
+                  sx={{ m: 2 }} variant="standard">
+                <InputLabel 
+                      id="demo-customized-select-label">Stopień trudności</InputLabel>
+                      <Select
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        value={changeLevel}
+                        onChange={e => setChangeLevel(e.target.value)}
+                      >
+                        <MenuItem value="easy">łatwy</MenuItem>
+                        <MenuItem value="medium">średni</MenuItem>
+                        <MenuItem value="hard">trudny</MenuItem>
+                      </Select>
+                </FormControl>
+            </div>
           <Divider />
           <div className="editmeals__calendar">
             <LocalizationProvider dateAdapter={AdapterDayjs}>

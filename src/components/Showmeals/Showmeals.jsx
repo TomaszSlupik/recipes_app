@@ -27,7 +27,7 @@ import Slide from '@mui/material/Slide';
 import Editmeals from '../Editmeals/Editmeals';
 import Searchbar from '../Searchbar/Searchbar';
 import Pagination from '../Pagination/Pagination';
-
+import useLogin from '../../hooks/useLogin'
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -35,6 +35,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   });
 
 export default function Showmeals() {
+
+    // const [idUser] = useLogin()
+    // console.log(idUser.localId)
 
     // Pobieranie danych z Backendu 
     const [allrecipes, setAllrecipes] = useState([])
@@ -108,6 +111,7 @@ export default function Showmeals() {
         setSettingMenu(e.currentTarget)
         setId(id)
         setClickMeal(namemeal)
+        
     }
 
     const showInfoForUser = () => {
@@ -125,6 +129,7 @@ export default function Showmeals() {
   const handleClickClose = () => {
     setOpen(false);
   };
+
 
 // Panel edycji 
 const [editOpen, setEditOpen] = useState(false)
@@ -230,7 +235,6 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                                         horizontal: 'right',
                                         }}
                                         open={Boolean(settingMenu)}
-                                        // onClose={handleClose}
                                     >
                                         <MenuItem 
                                         style={style.menu}
