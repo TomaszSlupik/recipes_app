@@ -17,7 +17,6 @@ import './Showmeals.scss'
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import IconButton from '@mui/material/IconButton';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -36,9 +35,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Showmeals() {
 
-    // const [idUser] = useLogin()
-    // console.log(idUser.localId)
-
+    const [idUser] = useLogin()
     // Pobieranie danych z Backendu 
     const [allrecipes, setAllrecipes] = useState([])
 
@@ -52,7 +49,8 @@ export default function Showmeals() {
             for (const key in res.data) {
                 newRecipes.push({...res.data[key], id: key})
             }
-            setAllrecipes(newRecipes)
+            // Pobranie tylko przepisów danego użytkownika 
+            setAllrecipes(newRecipes.filter(el => el.userId === idUser.localId))
         }
 
         catch (ex) {
@@ -114,13 +112,18 @@ export default function Showmeals() {
         
     }
 
+    const closeSettings = () => {
+        setSettingMenu(null)
+    }
+
     const showInfoForUser = () => {
        
         handleClickOpen()
         setSettingMenu(null)
     }
 
-    const [open, setOpen] = useState(false);
+// Setting do otwierania
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -181,6 +184,7 @@ const lastPostIndex = currentPage * postPerPage
 const firstPostIndex = lastPostIndex - postPerPage
 const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
 
+
   return (
     <div className='card'>
         <div className="card__boxNav">
@@ -207,11 +211,13 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                             Data dodania: {el.data.substr(0,16)}
                         </div>
                         <div className="card__settings">
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
+                    
+
+                        <Button
+                             id="basic-button"
+                            aria-controls={open ? 'basic-menu' : undefined}
                             aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
                             onClick={(e) => handleMenu(e, el.id, el.namemeal)}
                             color="inherit"
                         >
@@ -219,7 +225,7 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                          color=''
                          style={style.settings}
                          /> 
-                            </IconButton>
+                            </Button>
                                         <ThemeProvider theme={themeColor}>
                                         <Menu
                                         key={index}
@@ -234,6 +240,7 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                                         vertical: 'top',
                                         horizontal: 'right',
                                         }}
+                                        onClose={handleClickClose}
                                         open={Boolean(settingMenu)}
                                     >
                                         <MenuItem 
@@ -249,7 +256,11 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
 
                                         <MenuItem 
                                         onClick={showInfoForUser}
-                                        >Usuń</MenuItem>   
+                                        >Usuń</MenuItem>    
+
+                                        <MenuItem 
+                                        onClick={closeSettings}
+                                        >Powrót</MenuItem>        
                                          <Dialog
                                             open={open}
                                             TransitionComponent={Transition}

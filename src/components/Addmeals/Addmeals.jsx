@@ -40,6 +40,7 @@ import Stack from '@mui/material/Stack';
 import Alert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import { Card } from '@mui/material';
+import useLogin from '../../hooks/useLogin';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -48,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Addmeals({addMeals, closeAddMeals}) {
 
-
+const [user] = useLogin()
 const [namemeal, setNameMeal] = useState('')
 const [prepare, setPrepare] = useState('')
 const [time, setTime] = useState('')
@@ -188,7 +189,8 @@ const addRecipes = async (e) => {
               unit: ingredients.map(el => el.unit),
               image: url, 
               level: level,
-              data: dateAdd
+              data: dateAdd, 
+              userId: user.localId
             })
             setNameMeal('')
             setPrepare('')
