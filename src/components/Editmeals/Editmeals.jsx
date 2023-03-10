@@ -40,6 +40,7 @@ const [changeNameMeal, setChangeNameMeal] = useState()
 const [changePrepare, setChangePrepare] = useState()
 const [changeTime, setChangeTime] = useState()
 const [changeUrl, setChangeUrl] = useState(null)
+const [changeKind, setChangeKind] = useState()
 const [changeLevel, setChangeLevel] = useState()
 const [changeData, setChangeData] = React.useState(moment());
 
@@ -59,6 +60,7 @@ const editThisMeal = async () => {
       prepare: changePrepare,
       time: changeTime,
       image: changeUrl, 
+      kind: changeKind,
       level: changeLevel,
       data: changeData
     })
@@ -173,6 +175,27 @@ const changeAddPhoto = () => {
           </div>
           <div className="editmeals__avatar">
               <Avatar alt={changeNameMeal} src={changeUrl} />
+          </div>
+          <Divider />
+          <div className="editmeals__kind">
+          <FormControl 
+                  style={{width: '60%'}}
+                  sx={{ m: 2 }} variant="standard">
+                <InputLabel 
+                      id="demo-customized-select-label">Rodzaj posiłku</InputLabel>
+                      <Select
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        value={changeKind}
+                        onChange={e => setChangeKind(e.target.value)}
+                      >
+                        <MenuItem value="appetizerCold">Przystawka zimna</MenuItem>
+                        <MenuItem value="appetizerHot">Przystawka ciepła</MenuItem>
+                        <MenuItem value="soup">Zupa</MenuItem>
+                        <MenuItem value="mainMeal">Danie główne</MenuItem>
+                        <MenuItem value="mainMeal">Desery</MenuItem>
+                      </Select>
+                </FormControl>
           </div>
           <Divider />
             <div className="editmeals__level">

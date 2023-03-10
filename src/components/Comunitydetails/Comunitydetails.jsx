@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
+import Badge from '@mui/material/Badge';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import './Comunitydetails.scss'
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import { ThemeProvider } from '@emotion/react';
+import breakpoints from '../../theme/breakpoints';
+import Myrecipecard from '../../styles/myrecipecard';
+import Card from '@mui/material/Card';
+import { styled } from '@mui/material/styles';
 
-export default function Comunitydetails({comunityUserId}) {
+export default function Comunitydetails() {
 
     const nameUserParams = useParams()
     
@@ -55,13 +65,82 @@ export default function Comunitydetails({comunityUserId}) {
     }, [])
 
 
-    // Nazwa posiłku - danego użytkownika w bazie 
+    
     const idString = usercurrentID.toString()
-    const clickMeal = userCurrentData.filter(el => el.userId === idString).map(el => el.namemeal)
+    const userIdEqual = userCurrentData.filter(el => el.userId === idString)
+
+
+    // Liczba
+    const lengthMeal = userIdEqual.length
+    // Nazwa posiłku - danego użytkownika w bazie 
+    const clickMeal = userIdEqual.map(el => el.namemeal)
+    // Obrazek - danego użytkownika w bazie
+    const clickImage = userIdEqual.map(el => el.image)
+
+    // style 
+    const style = {
+      badge: {fontSize: '2rem', color: 'black'}
+    }
+
+    const ImageSrc = styled('span')({
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center 40%',
+      width: '100%',
+      height: '100%', 
+    });
+    
+    const ImageBackdrop = styled('span')(({ theme }) => ({
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+      backgroundColor: theme.palette.common.black,
+      opacity: 0.4,
+      transition: theme.transitions.create('opacity'),
+    }));
   
   return (
-    <div>
-      {clickMeal}
+    <div className='comunitydetails'>
+      <div className="comunitydetails__length">Liczba posiłków użytkownika: <span style={{fontWeight: 'bold'}}>{nameUserParams.nameuser} </span>
+      <Badge 
+      
+      badgeContent={lengthMeal} color="success">
+        <DinnerDiningIcon
+        style={style.badge}
+        color="action" />
+      </Badge>
+    </div>
+      <div className="comunitydetails__box">
+      
+      <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 2 }} > 
+        <ThemeProvider theme={breakpoints}>
+            {
+              userIdEqual.map ((el, index) => {
+                return (
+                  <Grid item xs={12} sm={12} md={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
+                  <Myrecipecard>
+                  <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
+                <ImageBackdrop className="MuiImageBackdrop-root" />
+        
+        
+                </Card>
+                </Myrecipecard>
+                </Grid>
+                )
+              })
+            }
+        </ThemeProvider>
+        </Grid>
+        </Box>
+      </div>
     </div>
   )
 }

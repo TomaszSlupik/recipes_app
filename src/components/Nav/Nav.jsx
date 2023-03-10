@@ -11,6 +11,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { useNavigate } from 'react-router-dom';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -48,7 +52,6 @@ const navigate = useNavigate()
 const goToComunity = () => {
     navigate('/recipes__app/comunity')
 }
-
 
   return (
     <div className='nav'>
@@ -89,8 +92,11 @@ const goToComunity = () => {
             <DialogTitle>{"Opcje wyświetlania"}</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
-                Let Google help apps determine location. This means sending anonymous
-                location data to Google, even when no apps are running.
+              <FormGroup>
+              <FormControlLabel control={<Checkbox />} 
+              label="Sortuj [A-Z]" />
+              <FormControlLabel control={<Checkbox />} label="Disabled" />
+            </FormGroup>
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -109,7 +115,8 @@ const goToComunity = () => {
             openAddMeals={openAddMeals}
             closeAddMeals={closeAddMeals}
             />
-            <Showmeals />
+            <Showmeals
+            />
     </div>
   )
 }

@@ -69,9 +69,6 @@ export default function Comunity() {
     const clickUserId = (id, name) => {
             setComunityUserID(id)
             setComunityName(name)
-            console.log(comunityName)
-            
-          
     }     
     
   
@@ -86,7 +83,7 @@ export default function Comunity() {
                       <TableHead>
                         <TableRow>
                           <TableCell style={{fontWeight: '700'}}>Użytkownicy</TableCell>
-                          <TableCell > Lista przepisów</TableCell>
+                          <TableCell align="right"> Lista przepisów</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
@@ -100,7 +97,7 @@ export default function Comunity() {
                             <TableCell component="th" scope="row">
                               {el.nameUser}
                             </TableCell>
-                            <TableCell component="th" scope="row">
+                            <TableCell align="right" component="th" scope="row">
                               <Link to={el.nameUser}>
                               <Button
                               onClick={() => clickUserId(el.userId, el.nameUser)}
@@ -117,9 +114,6 @@ export default function Comunity() {
                     </Table> 
 
         </div>
-        <Comunitydetails
-        comunityUserId={comunityUserId}
-        />
     </div>
   )
 }

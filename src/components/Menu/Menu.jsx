@@ -82,6 +82,15 @@ const style = {
                                 Aplikacja została stworzona dla miłośników gotowania.
                                 Jeżeli chcesz przeglądać przepisy oraz dodawać swoje, musisz zarejestrować się.
                                 Mając konto, przejdź do panelu logowania. 
+                                <div className="menu__login-text--paneluser">
+                                <div className="menu__login-text--paneluser---header">
+                                Konto testowe:
+                                </div>
+                                <div className="menu__login-text--paneluser---details">
+                                <span style={{fontWeight: 'bold'}}>Login:</span> slupik@gmail.com
+                                <div><span style={{fontWeight: 'bold'}}>Hasło:</span> slupik1234</div>
+                                </div>
+                                </div>
                             </Paper>
                         </div>
                     <div className="menu__login-btn">

@@ -92,6 +92,7 @@ const [quantity, setQuantity] = useState()
 const [unit, setUnit] = useState()
 const [ingredients, setIngredients] = useState([])
 const [level, setLevel] = useState()
+const [kind, setKind] = useState()
 
 // Storage dla zdjęcia 
 const [image, setImage] = useState(null)
@@ -151,6 +152,7 @@ const [errNameMeal, setErrNameMeal] = useState('')
 const [erringredients, setErrIngredients]  = useState('')
 const [errPrepare, setErrPrepare] = useState('')
 const [errTime, setErrTime] = useState('')
+const [errKind, setErrKind] = useState('')
 const [errLevel, setErrLevel] = useState('')
 const [errUrl, setErrUrl] = useState('')
 
@@ -171,6 +173,9 @@ const addRecipes = async (e) => {
   else if (time === 0 || time === ''){
     setErrTime('Proszę podać czas')
   }
+  else if (errKind === '') {
+    setErrKind('Proszę wybrać rodzaj posiłku')
+  }
   else if (errLevel === '') {
     setErrLevel('Proszę wybrać stopień trudności')
   }
@@ -189,6 +194,7 @@ const addRecipes = async (e) => {
               unit: ingredients.map(el => el.unit),
               image: url, 
               level: level,
+              kind: kind,
               data: dateAdd, 
               userId: user.localId
             })
@@ -199,6 +205,7 @@ const addRecipes = async (e) => {
             setQuantity('')
             setUnit('')
             setLevel('')
+            setKind('')
             setImage(null)
             setUrl('')
             closeAddMeals()
@@ -227,6 +234,13 @@ const handlerPrepare = (e) => {
   setErrPrepare('Ok')
   const errPrepareAlert = document.querySelector('.errPrepareAlert')
   errPrepareAlert.style.display = 'none'
+}
+
+const handlerKind = (e) => {
+  e.preventDefault()
+  setKind('Ok')
+  const errKindAlert = document.querySelector('.errKindAlert')
+  errKindAlert.style.display = 'none'
 }
 
 const handlerLevel = (e) => {
@@ -498,7 +512,43 @@ const style = {
                   </Alert>)
                 }
                 </Card>
+                
                 </div>
+
+                <div className="addMeals__kind">
+                <FormControl 
+                  style={{width: '60%'}}
+                  sx={{ m: 2 }} variant="standard">
+                <InputLabel 
+                      id="demo-customized-select-label">Rodzaj posiłku</InputLabel>
+                      <Select
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        value={kind}
+                        onChange={handlerKind}
+                      >
+                        <MenuItem value="appetizerCold">Przystawka zimna</MenuItem>
+                        <MenuItem value="appetizerHot">Przystawka ciepła</MenuItem>
+                        <MenuItem value="soup">Zupa</MenuItem>
+                        <MenuItem value="mainMeal">Danie główne</MenuItem>
+                        <MenuItem value="mainMeal">Desery</MenuItem>
+                      </Select>
+                </FormControl>
+                {
+                  errKind === '' || errKind === 'OK'
+                  ?
+                  (
+                    <div></div>
+                  )
+                  :
+                  (<Alert 
+                  className='errKindAlert'
+                  severity="error">{errKind}
+                  </Alert>)
+                }
+                </div>
+
+
                 <div className="addMeals__level">
                 <FormControl 
                   style={{width: '60%'}}

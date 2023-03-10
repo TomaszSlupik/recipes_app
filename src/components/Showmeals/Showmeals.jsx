@@ -33,7 +33,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
 
-export default function Showmeals() {
+export default function Showmeals(props) {
 
     const [idUser] = useLogin()
     // Pobieranie danych z Backendu 
