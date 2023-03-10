@@ -9,6 +9,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { useNavigate } from 'react-router-dom';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -39,25 +41,42 @@ const handleOpenOption = () => {
   setOpenOption(true)
 }
 
+// Przejście do społeczności 
+
+const navigate = useNavigate()
+
+const goToComunity = () => {
+    navigate('/recipes__app/comunity')
+}
 
 
   return (
     <div className='nav'>
           <div className="nav__header">
-          <Button
-            variant="contained"
-            onClick={openAddMeals}
-            >
-                Dodaj przepis
-            </Button>
-            <Button
-            style={{marginLeft: '0.5em'}}
-            variant="contained"
-            onClick={handleOpenOption}
-            >
-                Opcje
-            </Button>
+            <div className="nav__header-box">
+                <Button
+                style={{width: '150px'}}
+                variant="contained"
+                onClick={openAddMeals}
+                >
+                    Dodaj przepis
+                </Button>
+                <Button
+                onClick={goToComunity}
+                style={{width: '150px', marginLeft: '0.5em'}}
+                variant="contained"
+                >
+                    Społeczność
+                </Button>
 
+                <Button
+                style={{marginLeft: '0.5em'}}
+                variant="contained"
+                onClick={handleOpenOption}
+                >
+                    < FilterAltIcon />
+                </Button>
+            </div>
           </div>
 
               <Dialog

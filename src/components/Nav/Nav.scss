@@ -8,5 +8,11 @@
     align-items: center;
     &__header {
         margin-top: 1em;
+        &-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }

@@ -36,8 +36,11 @@
             font-size: 2rem;
         }
         &-name {
+            display: flex;
+            flex-direction: column;
             margin-left: 0.5em;
             margin-top: 0.4em;
+            width: 70%;
         }
         &-user {
             font-size: 1.2rem;
