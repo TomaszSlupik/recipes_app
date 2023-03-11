@@ -103,12 +103,14 @@ export default function Showmeals(props) {
     //   Setting - do usuwania i edycji 
     const [settingMenu, setSettingMenu] = useState(null)
     const [clickMeal, setClickMeal] = useState()
+    const [clickImage, setClickImage] = useState()
     const [id, setId] = useState()
 
-    const handleMenu = (e, id, namemeal) => {
+    const handleMenu = (e, id, namemeal, image) => {
         setSettingMenu(e.currentTarget)
         setId(id)
         setClickMeal(namemeal)
+        setClickImage(image)
         
     }
 
@@ -218,7 +220,7 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                             aria-controls={open ? 'basic-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
-                            onClick={(e) => handleMenu(e, el.id, el.namemeal)}
+                            onClick={(e) => handleMenu(e, el.id, el.namemeal, el.image)}
                             color="inherit"
                         >
                              <SettingsIcon
@@ -252,8 +254,9 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                                         id={id}
                                         clickMeal={clickMeal}
                                         editOpen={editOpen}
-                                        handleCloseEdit={handleCloseEdit}/>
-
+                                        handleCloseEdit={handleCloseEdit}
+                                        clickImage={clickImage}
+                                        />          
                                         <MenuItem 
                                         onClick={showInfoForUser}
                                         >Usuń</MenuItem>    

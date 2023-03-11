@@ -27,27 +27,30 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { async } from '@firebase/util';
+import { click } from '@testing-library/user-event/dist/click';
+import useLogin from '../../hooks/useLogin';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 
-export default function Editmeals({id, clickMeal, editOpen, handleCloseEdit}) {
-
+export default function Editmeals({id, clickMeal, editOpen, handleCloseEdit, clickImage}) {
 
 const [changeNameMeal, setChangeNameMeal] = useState()
 const [changePrepare, setChangePrepare] = useState()
 const [changeTime, setChangeTime] = useState()
-const [changeUrl, setChangeUrl] = useState(null)
+const [changeUrl, setChangeUrl] = useState(clickImage)
 const [changeKind, setChangeKind] = useState()
 const [changeLevel, setChangeLevel] = useState()
 const [changeData, setChangeData] = React.useState(moment());
-
+const [user] = useLogin()
 // Zmiana daty
 const handleChange = (newValue) => {
   setChangeData(newValue)
 }
+
 
 // Edycja całego przepisu
 const editThisMeal = async () => {
@@ -62,9 +65,10 @@ const editThisMeal = async () => {
       image: changeUrl, 
       kind: changeKind,
       level: changeLevel,
-      data: changeData
+      data: changeData, 
+      userId: user.localId
     })
-
+    window.location.reload(true)
     }
     catch (ex) {
         console.log(ex.respone)
@@ -159,11 +163,14 @@ const changeAddPhoto = () => {
             }/>
           </ListItem>
           <Divider />
+          <div className="editmeals__defaulttextcamera">
+            Domyślnie ustawione jest stare zdjęcie. Aby wczytać nowe zdjęcię musisz kliknąć na kamerę i wybrać zdjęcię przepisu. Następnie kliknij dodaj zdjęcie. Jeżeli zdjęcie pojawi się w miniaturce oznacza to, że zdjęcie zostało wczytane poprawnie
+          </div>
           <div className='editmeals__textCamera'>Kliknij na kamerę i dodaj zdjęcie</div>
           <div className="editmeals__boxCamera">
               Dodaj zdjęcie
               <IconButton color="primary" aria-label="upload picture" component="label">
-              <input hidden accept="image/*" type="file" 
+              <input hidden accept="image/*" type="file"
                 onChange={e => setChangeImage(e.target.files[0])}/>
                 <PhotoCamera 
                 onChange={e => setChangeImage(e.target.files[0])}

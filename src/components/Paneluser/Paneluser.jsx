@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import useLogin from '../../hooks/useLogin'
 import Nav from '../Nav/Nav';
 import Avatar from '@mui/material/Avatar';
@@ -8,8 +8,7 @@ import { Paper } from '@mui/material';
 import './Paneluser.scss'
 import { Button } from '@mui/material'
 import Dialog from '@mui/material/Dialog';
-import ListItemText from '@mui/material/ListItemText';
-import ListItem from '@mui/material/ListItem';
+import Slide from '@mui/material/Slide';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
@@ -17,15 +16,12 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import Slide from '@mui/material/Slide';
-import axios from '../../firebase/axios'
-import { Card } from '@mui/material';
 import TextField from '@mui/material/TextField';
+import axios from '../../firebase/axios'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 export default function Paneluser({logoutUser}) {
 
@@ -36,80 +32,87 @@ export default function Paneluser({logoutUser}) {
   // Profil usera 
   const [openPanelUser, setOpenPanelUser] = useState(false);
 
+
   const handleClickOpenPanel = () => {
     setOpenPanelUser(true);
+
+  
   };
 
   const handleClickClosePanel = () => {
     setOpenPanelUser(false);
   };
 
-  // Dodatkowe 
-  const [nameUser, setNameUser] = useState('')
-  const [detailUser, setDetailUser] = useState([])
-  const [idUser] = useLogin()
+   // Dodatkowe 
+   const [nameUser, setNameUser] = useState('')
+   const [detailUser, setDetailUser] = useState([])
+   const [idUser] = useLogin()
+ 
+   const userShow = detailUser.map(el => el.nameUser).toString()
+   // Zapis szczegułów do Bazy 
+   const saveDataUser = async (e) => {
+     e.preventDefault()
+     
+     try {
+         await axios.post ('/users.json', {
+           userId: user.localId, 
+           nameUser: nameUser
+         })
+     }
+     catch (ex) {
+       console.log(ex.response)
+     }
+     handleClickClosePanel()
+     window.location.reload(true)
+   }
+ 
+   // Edycja Usera do Bazy
+   const [newNameUser, setNewNameUSer] = useState()
+ 
+   const saveEditUser = async () => {
+     const idpersonalusername = detailUser.map(el => el.id).toString()
+     try {
+         await axios.put(`/users/${idpersonalusername}.json`, {
+           userId: user.localId, 
+           nameUser: newNameUser
+ 
+         }) 
+     }
+     catch (ex) {
+         console.log(ex.response)
+     }
+     handleClickClosePanel()
+     window.location.reload(true)
+   }
+ 
+ 
+   // Odczyt Bazy 
+   const readDataUser = async () => {
+     try {
+       const res = await axios.get('/users.json')
+ 
+       const allUsers = []
+ 
+       for (const key in res.data) {
+         allUsers.push({...res.data[key], id: key})
+       }
+       // Pobranie tylko tego użytkownika
+       setDetailUser(allUsers.filter(el => el.userId === idUser.localId))
+   }
+ 
+   catch (ex) {
+       console.log(ex.response)
+   }
+   }
+ 
 
-  const userShow = detailUser.map(el => el.nameUser).toString()
-  // Zapis szczegułów do Bazy 
-  const saveDataUser = async (e) => {
-    e.preventDefault()
-    
-    try {
-        await axios.post ('/users.json', {
-          userId: user.localId, 
-          nameUser: nameUser
-        })
-    }
-    catch (ex) {
-      console.log(ex.response)
-    }
-    setOpenPanelUser(false);
-    window.location.reload(true)
-  }
 
-  // Edycja Usera do Bazy
-  const [newNameUser, setNewNameUSer] = useState()
-
-  const saveEditUser = async () => {
-    const idpersonalusername = detailUser.map(el => el.id).toString()
-    try {
-        await axios.put(`/users/${idpersonalusername}.json`, {
-          userId: user.localId, 
-          nameUser: newNameUser
-
-        }) 
-    }
-    catch (ex) {
-        console.log(ex.response)
-    }
-    setOpenPanelUser(false);
-    window.location.reload(true)
-  }
+   useEffect(() => {
+      readDataUser()
+   }, [])
+ 
 
 
-  // Odczyt Bazy 
-  const readDataUser = async () => {
-    try {
-      const res = await axios.get('/users.json')
-
-      const allUsers = []
-
-      for (const key in res.data) {
-        allUsers.push({...res.data[key], id: key})
-      }
-      // Pobranie tylko tego użytkownika
-      setDetailUser(allUsers.filter(el => el.userId === idUser.localId))
-  }
-
-  catch (ex) {
-      console.log(ex.response)
-  }
-  }
-
-
-  useEffect(() => {
-    readDataUser()
-  }, [])
 
   // style
     const style ={
@@ -121,6 +124,7 @@ export default function Paneluser({logoutUser}) {
   return (
     <>
      <ThemeProvider theme={themeColor}>
+     
     <div className='paneluser'>
       <Paper
       style={style.paper}
@@ -148,15 +152,16 @@ export default function Paneluser({logoutUser}) {
         </div>
       </Paper>
     </div>
+
     <Nav />
-
-
     <Dialog
         fullScreen
         open={openPanelUser}
         onClose={handleClickClosePanel}
         TransitionComponent={Transition}
       >
+
+        
         <AppBar sx={{ position: 'relative' }}>
           <Toolbar>
             <IconButton
@@ -236,7 +241,7 @@ export default function Paneluser({logoutUser}) {
           }
          
         </List>
-      </Dialog>
+    </Dialog>
     </ThemeProvider>
     </>
     

@@ -16,6 +16,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import mykey from '../../firebase/mykey'
 import useLogin from '../../hooks/useLogin';
 import Alert from '@mui/material/Alert';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -50,6 +51,8 @@ const passwordInput = (e) => {
 const [login, setLogin] = useLogin()
 const [error, setErorr] = useState(null)
 
+const navigate = useNavigate()
+
 const submitRegister = async (e) => {
   e.preventDefault()
   try {
@@ -61,6 +64,7 @@ const submitRegister = async (e) => {
   })
     setLogin(res.data)
     closeRegister()
+    navigate('/recipes_app/profile')
   }
   catch (ex) {
       setErorr(ex.response.data.error.message)
@@ -129,12 +133,11 @@ const style = {
           <Button 
           variant='outlined'
           onClick={closeRegister}
-          >Anuluj</Button>
+          >Anuluj</Button>   
           <Button 
           variant="contained"
           onClick={submitRegister}
           >Akcteptuję</Button>
-          
         </DialogActions>
       </Dialog>
     </div>

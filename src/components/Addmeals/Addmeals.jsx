@@ -217,7 +217,6 @@ const addRecipes = async (e) => {
             console.log(ex.response)
       }
   }
-    
 }
 
 // onchange
@@ -237,8 +236,10 @@ const handlerPrepare = (e) => {
 }
 
 const handlerKind = (e) => {
+  console.log(errKind)
   e.preventDefault()
-  setKind('Ok')
+  setKind(e.target.value)
+  setErrKind('Ok')
   const errKindAlert = document.querySelector('.errKindAlert')
   errKindAlert.style.display = 'none'
 }
@@ -310,9 +311,9 @@ const style = {
                 maxRows={4}
                 variant="standard"
                 />
-
                 <TextField
                 id="standard-number"
+                step="0.1"
                 label="Ilość składników"
                 value={quantity}
                 onChange={e => setQuantity(e.target.value)}
@@ -330,6 +331,7 @@ const style = {
                       <InputLabel 
                       id="demo-customized-select-label">Jednostka</InputLabel>
                       <Select
+                      defaultValue=""
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
                         value={unit}
@@ -339,7 +341,9 @@ const style = {
       
                         <MenuItem value="szt.">szt.</MenuItem>
                         <MenuItem value="g">g</MenuItem>
+                        <MenuItem value="g">kg</MenuItem>
                         <MenuItem value="ml">ml</MenuItem>
+                        <MenuItem value="l">l</MenuItem>
                       </Select>
                     </FormControl>
 
@@ -527,11 +531,11 @@ const style = {
                         value={kind}
                         onChange={handlerKind}
                       >
-                        <MenuItem value="appetizerCold">Przystawka zimna</MenuItem>
-                        <MenuItem value="appetizerHot">Przystawka ciepła</MenuItem>
-                        <MenuItem value="soup">Zupa</MenuItem>
-                        <MenuItem value="mainMeal">Danie główne</MenuItem>
-                        <MenuItem value="mainMeal">Desery</MenuItem>
+                        <MenuItem value="Przystawka zimna">Przystawka zimna</MenuItem>
+                        <MenuItem value="Przystawka ciepł">Przystawka ciepła</MenuItem>
+                        <MenuItem value="Zupa">Zupa</MenuItem>
+                        <MenuItem value="Danie główne">Danie główne</MenuItem>
+                        <MenuItem value="Desery">Desery</MenuItem>
                       </Select>
                 </FormControl>
                 {

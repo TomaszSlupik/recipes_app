@@ -10,6 +10,8 @@ import Comunity from '../Comunity/Comunity';
 import Comunitydetails from '../Comunitydetails/Comunitydetails';
 
 
+
+
 // Reducer do logowania 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -46,9 +48,9 @@ useTitlewebside('Tomasz Słupik')
         >     
         <Router>
           <Routes>
-            <Route path='/recipes_app' element={<Menu colorTheme={colorTheme}/>} />
-            <Route path='/recipes_app' element={<Login/>} />
-            <Route path='/recipes_app/:name' element={<Details />} />
+            <Route exact path='/recipes_app' element={<Menu colorTheme={colorTheme}/>} />
+            <Route exact path='/recipes_app' element={<Login/>} />
+            <Route exact path='/recipes_app/:name' element={<Details />} />
             <Route exact path='/recipes__app/comunity' element={<Comunity />} />
             <Route exact path='/recipes__app/comunity/:nameuser' element={<Comunitydetails />} />
           </Routes>
