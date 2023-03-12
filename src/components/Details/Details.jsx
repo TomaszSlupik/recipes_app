@@ -173,21 +173,36 @@ export default function Details() {
 </div>
 
 
-<div className="ingredients__box">
+<div className="ingredients__box-recipe">
     <div className="ingredients__box-list">
         <div className="ingredients__box-list--icon">
+            <div className="ingredients__box-list--icon---header">
             {kindToString}  
-            <RestaurantIcon style={{fontSize: '2rem'}}/>
+            </div>
+            <RestaurantIcon style={{fontSize: '2rem', color: '#21415b'}}/>
+            <div className="ingredients__box-list--icon---footer">
+                Rodzaj posiłku
+            </div>
         </div>
          
     </div>
     <div className="ingredients__box-list--icon">
+        <div className="ingredients__box-list--icon---header">
         {levelToString}
-        <SpeedIcon />
+        </div>
+        <SpeedIcon style={{fontSize: '2rem', color: '#21415b'}}/>
+        <div className="ingredients__box-list--icon---footer">
+                Stopień trudności
+        </div>
     </div>
     <div className="ingredients__box-list--icon">
+        <div className="ingredients__box-list--icon---header">
         {timeToString} min
-        <TimerIcon />
+        </div> 
+        <TimerIcon style={{fontSize: '2rem', color: '#21415b'}}/>
+        <div className="ingredients__box-list--icon---footer">
+                Czas przygotowania
+        </div>
     </div>
 
 </div>

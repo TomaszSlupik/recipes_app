@@ -201,7 +201,7 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
             {
                 currentPosts.map((el, index) => {
                     return (
-                        <Grid item xs={12} sm={12} md={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
+                        <Grid item xs={12} sm={12} lg={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
                         <Myrecipecard>
                         <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
                         <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
@@ -293,9 +293,6 @@ const currentPosts = allrecipes.slice(firstPostIndex, lastPostIndex)
                                 
                                 
                                 <ThemeProvider theme={themeColor}>
-                                    <Details 
-                                    allrecipes={allrecipes}/>
-                                    
                                     <Link to={el.namemeal}>
                                     <Button
                                     variant="contained"
