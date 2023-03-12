@@ -196,11 +196,11 @@ const changeAddPhoto = () => {
                         value={changeKind}
                         onChange={e => setChangeKind(e.target.value)}
                       >
-                        <MenuItem value="appetizerCold">Przystawka zimna</MenuItem>
-                        <MenuItem value="appetizerHot">Przystawka ciepła</MenuItem>
-                        <MenuItem value="soup">Zupa</MenuItem>
-                        <MenuItem value="mainMeal">Danie główne</MenuItem>
-                        <MenuItem value="mainMeal">Desery</MenuItem>
+                        <MenuItem value="Przystawka zimna">Przystawka zimna</MenuItem>
+                        <MenuItem value="Przystawka ciepła">Przystawka ciepła</MenuItem>
+                        <MenuItem value="Zupa">Zupa</MenuItem>
+                        <MenuItem value="Danie główne">Danie główne</MenuItem>
+                        <MenuItem value="Desery">Desery</MenuItem>
                       </Select>
                 </FormControl>
           </div>
@@ -217,9 +217,9 @@ const changeAddPhoto = () => {
                         value={changeLevel}
                         onChange={e => setChangeLevel(e.target.value)}
                       >
-                        <MenuItem value="easy">łatwy</MenuItem>
-                        <MenuItem value="medium">średni</MenuItem>
-                        <MenuItem value="hard">trudny</MenuItem>
+                        <MenuItem value="łatwy">łatwy</MenuItem>
+                        <MenuItem value="średni">średni</MenuItem>
+                        <MenuItem value="trudny">trudny</MenuItem>
                       </Select>
                 </FormControl>
             </div>

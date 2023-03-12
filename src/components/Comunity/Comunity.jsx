@@ -9,8 +9,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
-import { Link} from 'react-router-dom';
-import Comunitydetails from '../Comunitydetails/Comunitydetails';
+import { Link, useNavigate} from 'react-router-dom';
+
 
 
 export default function Comunity() {
@@ -65,10 +65,12 @@ export default function Comunity() {
     const [comunityUserId, setComunityUserID] = useState()
     const [comunityName, setComunityName] = useState()
 
+    const navigate = useNavigate()
 
     const clickUserId = (id, name) => {
             setComunityUserID(id)
             setComunityName(name)
+            navigate(`${comunityName}`)
     }     
     
   
@@ -98,14 +100,14 @@ export default function Comunity() {
                               {el.nameUser}
                             </TableCell>
                             <TableCell align="right" component="th" scope="row">
-                              <Link to={el.nameUser}>
+                              {/* <Link to={el.nameUser}> */}
                               <Button
                               onClick={() => clickUserId(el.userId, el.nameUser)}
                               variant='outlined'
                               >
                                 Zobacz
                               </Button>
-                              </Link>
+                              {/* </Link> */}
                             </TableCell>
                           </TableRow>
                           )

@@ -1,39 +1,109 @@
+.header {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__box {
+        width: 90%;
+        color: #21415b;
+        font-size: 1.7rem;
+        font-weight: 600;
+        margin-top: 0.3em;
+        margin-bottom: 0.5em;
+    }
+}
+
 .details {
     position: relative;
     width: 100vw;
     height: 100%;
-    &__header {
-        color: #21415b;
-        font-size: 1.7rem;
-        font-weight: 600;
-        padding: 0.4em 0.2em;
-    }
-
-    &__img {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    &__box {
         position: relative;
-        width: 300px;
-        height: 300px;
-        margin-left: 0.2em;
-    }
-    &__prepare {
-        font-size: 1.2rem;
-        padding: 0.4em 0.5em;
+        width: 90%;
+        height: 100%;
+        
+        &-img {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+        &-prepare {
+            font-size: 1.2rem;
+            padding: 0.4em 0.5em;
+            text-align: justify;
+        }
+    }  
+    &__prepareRecipe {
+        position: relative;
+        width: 90%;
+        font-size: 1.4rem;
+        font-weight: 300;
         text-align: justify;
+        margin-top: 0.4em;
     }
 }
 
+.ingredients {
+    position: relative;
+    height: 100%;
+    
+    &__header {
+        text-align: center;
+        color: #21415b;
+        font-size: 1.4rem;
+        font-weight: 600;
+    }
+
+    &__box {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        &-list {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            &--icon {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 2rem;
+                margin-left: 0.4em;
+            }
+    
+            &--details {
+                width: 100%;
+                height: 100%;
+                
+            }
+        }
+    }
+   
+
+}
+
 @media only screen and (min-width: 576px) {
-    .details {
-        &__header {
+    .header {
+        &__box {
             font-size: 2.5rem;
         }
-        &__img {
-            width: 470px;
-            height: 380px;
+        
+    }
+    .ingredients {
+        &__header {
+            font-size: 2.2rem;
         }
-        &__prepare {
-            font-size: 1.5rem;
-            padding: 0.4em 0.9em;
+    }
+    .details {
+        &__prepareRecipe {
+            font-size: 1.4rem;
         }
     }
 }
@@ -45,10 +115,49 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            width: 95%;
+            &-prepare, &-img {
+                width: 50%;
+            }
 
         }
-        &__prepare, &__img {
-            width: 50%;
-        }
+       
     }
 }
+
+
+@media only screen and (min-width: 1200px) {
+    .header {
+        &__box {
+            font-size: 3rem;
+        }
+        .ingredients {
+            &__header {
+                font-size: 2.7rem;
+            }
+        }
+        .details {
+            &__prepareRecipe {
+                font-size: 2.7rem;
+            }
+        }
+        
+    }
+    .details {
+        &__box {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 95%;
+            &-prepare, &-img {
+                width: 50%;
+            }
+            &-img {
+                height: 400px;
+            }
+
+        }
+       
+    }
+}
+

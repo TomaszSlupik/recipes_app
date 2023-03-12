@@ -3,11 +3,10 @@ import { useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
 import './Details.scss'
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import SpeedIcon from '@mui/icons-material/Speed';
+import TimerIcon from '@mui/icons-material/Timer';
 
 export default function Details() {
 
@@ -54,23 +53,39 @@ export default function Details() {
 
     // --składnik
     const name_ingredients = oneRecipe.map((el => el.name_ingredients))
-    const name_ingredientstoString = name_ingredients.toString()
+
+
+    const flatIngredients = name_ingredients.flat(1)
 
      // --ilość
     const quantity = oneRecipe.map((el => el.quantity))
-    const quantitytoString = quantity.toString()
+
+
+    const flatquantity = quantity.flat(1)
 
     // jednostka
      const unit = oneRecipe.map((el => el.unit))
      const unittoString = unit.toString()
 
+     const flatunit = unit.flat(1)
+
     // -czas przygotownia
     const time = oneRecipe.map((el => el.time))
     const timeToString = time.toString()
 
+
+    // -stopień
+    const level = oneRecipe.map((el => el.level))
+    const levelToString = level.toString()
+
+    // -rodzaj
+    const kind = oneRecipe.map((el => el.kind))
+    const kindToString = kind.toString()
+    
+
     // data
      const data = oneRecipe.map((el => el.data))
-     const dataToString = data.toString()
+
 
 
     // style
@@ -90,57 +105,93 @@ export default function Details() {
 
   return (
     <>
+    <div className="header">
+        <div className="header__box">
+        {namemealtoString}
+        </div>
+    </div>
     <div className='details'>
-       
-       <div className="details__header">
-           {namemealtoString}
-       </div>
-     
-
    <div className="details__box">
-       <div className="details__img">
-           <ImageSrc className="details__img" style={{ backgroundImage: `url(${imgMealtoString})` }} />
+       <div className="details__box-img">
+           <ImageSrc className="details__box-img" style={{ backgroundImage: `url(${imgMealtoString})` }} />
        </div>
-       <div className="details__prepare">
-       {preparetoString}
+       <div className="details__box-prepare">
+       <div className="ingredients">
+        <div className="ingredients__header">
+            Składniki:
+        </div>
+        <div className="ingredients__box">
+        <div className='ingredients__box-list'>
+            {
+                flatIngredients.map((el) => {
+                    return (
+                        <>
+                        <div className='ingredients__box-list--details'>
+                            <FiberManualRecordIcon style={{fontSize: '0.7rem', color: '#21415b'}}/> {el} -
+                        </div>
+                        </>
+                   
+                )
+                })
+                }
+            </div>
+            <div className="ingredients__box-list">
+                {
+                    flatquantity.map((el) => {
+                        return (
+                            <>
+                            <div className='ingredients__box-list--details'>
+                            {el}
+                            </div>
+                            </>
+                    
+                    )
+                    })
+                    }
+            </div>
+                <div className="ingredients__box-list">
+                {
+                flatunit.map((el) => {
+                    return (
+                        <>
+                        <div className='ingredients__box-list--details'>
+                        {el}
+                        </div>
+                        </>
+                   
+                )
+                })
+                }
+                </div>
+        </div>    
+   </div>
        </div>
    </div>
-   <div className="details__ingredients">
-    <Table size="small" aria-label="a dense table">
-    <TableHead>
-    <TableRow>
-        <TableCell>Składnik</TableCell>
-        <TableCell align="right">Ilość</TableCell>
-        <TableCell align="right">Jednostka</TableCell>
-    </TableRow>
-    </TableHead>
-    <TableBody>
-            
-          
-                    <TableRow
-                     
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                    <TableCell component="th" scope="row">
-                        
-                    </TableCell>
-                    <TableCell align="right">{quantitytoString}</TableCell>
-                    <TableCell align="right">{unittoString}</TableCell>
-                    </TableRow>
-            
-  
-    </TableBody>
-</Table> 
-   </div>
-   <div className="details__time">
-       {timeToString}
-   </div>
-   <div className="details__level">
-    
-   </div>
-   <div className="details__data">
-       {dataToString}
-   </div>
+
+<div className='details__prepareRecipe'>
+    {preparetoString}
+</div>
+
+
+<div className="ingredients__box">
+    <div className="ingredients__box-list">
+        <div className="ingredients__box-list--icon">
+            {kindToString}  
+            <RestaurantIcon style={{fontSize: '2rem'}}/>
+        </div>
+         
+    </div>
+    <div className="ingredients__box-list--icon">
+        {levelToString}
+        <SpeedIcon />
+    </div>
+    <div className="ingredients__box-list--icon">
+        {timeToString} min
+        <TimerIcon />
+    </div>
+
+</div>
+
 </div>
     </>
     

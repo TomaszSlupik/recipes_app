@@ -36,7 +36,7 @@ const [state, dispatch] = useReducer(reducer, initialState)
 const [colorTheme, setColorTheme] = useState('primary')
 
 // Zmiana tytułu strony 
-useTitlewebside('Tomasz Słupik')
+useTitlewebside('Przepisy')
 
   return (
     <div>

@@ -341,7 +341,7 @@ const style = {
       
                         <MenuItem value="szt.">szt.</MenuItem>
                         <MenuItem value="g">g</MenuItem>
-                        <MenuItem value="g">kg</MenuItem>
+                        <MenuItem value="kg">kg</MenuItem>
                         <MenuItem value="ml">ml</MenuItem>
                         <MenuItem value="l">l</MenuItem>
                       </Select>
@@ -565,9 +565,9 @@ const style = {
                         value={level}
                         onChange={handlerLevel}
                       >
-                        <MenuItem value="easy">łatwy</MenuItem>
-                        <MenuItem value="medium">średni</MenuItem>
-                        <MenuItem value="hard">trudny</MenuItem>
+                        <MenuItem value="łatwy">łatwy</MenuItem>
+                        <MenuItem value="średni">średni</MenuItem>
+                        <MenuItem value="trudny">trudny</MenuItem>
                       </Select>
                 </FormControl>
                 {
