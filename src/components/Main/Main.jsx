@@ -51,8 +51,8 @@ useTitlewebside('Przepisy')
             <Route exact path='/recipes_app' element={<Menu colorTheme={colorTheme}/>} />
             <Route exact path='/recipes_app' element={<Login/>} />
             <Route exact path='/recipes_app/:name' element={<Details />} />
-            <Route exact path='/recipes__app/comunity' element={<Comunity />} />
-            <Route exact path='/recipes__app/comunity/:nameuser' element={<Comunitydetails />} />
+            <Route exact path='/recipes_app/comunity' element={<Comunity />} />
+            <Route exact path='/recipes_app/comunity/:nameuser' element={<Comunitydetails />} />
           </Routes>
         </Router>
         </LoginContext.Provider>

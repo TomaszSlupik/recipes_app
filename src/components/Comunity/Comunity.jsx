@@ -7,11 +7,10 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import ListItem from '@mui/material/ListItem';
 import Button from '@mui/material/Button';
-import { Link, useNavigate} from 'react-router-dom';
-
-
+import { useNavigate} from 'react-router-dom';
+import Comunitydetails from '../Comunitydetails/Comunitydetails';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
 
 export default function Comunity() {
 
@@ -61,24 +60,46 @@ export default function Comunity() {
         readData()
     }, [])
 
+    let navigate = useNavigate()
     // Przechwytywanie informacji o nazwie i ID 
     const [comunityUserId, setComunityUserID] = useState()
-    const [comunityName, setComunityName] = useState()
-
-    const navigate = useNavigate()
-
+    const [comunityName, setComunityName] = useState("")
+    console.log(comunityName)
+    
     const clickUserId = (id, name) => {
             setComunityUserID(id)
             setComunityName(name)
-            navigate(`${comunityName}`)
+            navigate(`/recipes_app/comunity/${comunityName}`)
     }     
     
-  
+    const navigateTwo = useNavigate()
+
+    const goToBack = () => {
+      navigateTwo('/recipes_app')
+
+    }
+    
 
   return (
     <div className='comunity'>
         <div className="comunity__header">
             Lista wszystkich użytkowników <PeopleIcon style={{marginLeft: '0.4em', fontSize: '3rem'}}/>
+        </div>
+        <div className="comunity__textBack">
+          <div className="comunity__textBack-btn">
+              <div className="comunity__textBack-btn--click">
+              <Button
+              variant='contained'
+              onClick={goToBack}
+              >
+                Powrót 
+                <FastRewindIcon />
+              </Button>
+              </div>
+          </div>
+        </div>
+        <div className="comunity__info">
+          Aby znaleźć się na liście użytkowników, przejdź do panelu profil i podaj swoją nazwę użytkownika.
         </div>
         <div className="comunity__users">
                <Table size="small" aria-label="a dense table">
@@ -100,21 +121,18 @@ export default function Comunity() {
                               {el.nameUser}
                             </TableCell>
                             <TableCell align="right" component="th" scope="row">
-                              {/* <Link to={el.nameUser}> */}
                               <Button
-                              onClick={() => clickUserId(el.userId, el.nameUser)}
+                              onClick={(e) => clickUserId(el.userId, el.nameUser)}
                               variant='outlined'
                               >
                                 Zobacz
                               </Button>
-                              {/* </Link> */}
                             </TableCell>
                           </TableRow>
                           )
                 })}
                       </TableBody>
                     </Table> 
-
         </div>
     </div>
   )

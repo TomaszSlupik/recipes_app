@@ -27,9 +27,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { async } from '@firebase/util';
-import { click } from '@testing-library/user-event/dist/click';
 import useLogin from '../../hooks/useLogin';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -135,7 +139,97 @@ const changeAddPhoto = () => {
             }/>
           </ListItem>
           <Divider />
-              
+    
+                <div className="addMeals__box-headerInfo">
+                  W polu składnik wpisz samą nazwę składnika, w polu ilość wybierz ilość posiłku oraz wybierz jednostkę i kliknij przycisk dodaj.
+                </div>
+                <div className="addMeals__box-field">
+                <TextField
+                id="standard-multiline-flexible"
+                label="Składnik"
+                // value={name_ingredients}
+                // onChange={e => setName_ingredients(e.target.value)}
+                multiline
+                maxRows={4}
+                variant="standard"
+                />
+                <TextField
+                id="standard-number"
+                step="0.1"
+                label="Ilość składników"
+                // value={quantity}
+                // onChange={e => setQuantity(e.target.value)}
+                type="number"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                variant="standard"
+                />
+                </div>
+                  <div className="addMeals__box-add">
+                  <FormControl 
+                  style={{width: '60%'}}
+                  sx={{ m: 2 }} variant="standard">
+                      <InputLabel 
+                      id="demo-customized-select-label">Jednostka</InputLabel>
+                      <Select
+                      defaultValue=""
+                        labelId="demo-customized-select-label"
+                        id="demo-customized-select"
+                        // value={unit}
+                        // onChange={e => setUnit(e.target.value)}
+                        // input={<BootstrapInput />}
+                      >
+                        <MenuItem value="szklanka">szklanka</MenuItem>
+                        <MenuItem value="łyżka">łyżka</MenuItem>
+                        <MenuItem value="szt.">szt.</MenuItem>
+                        <MenuItem value="g">g</MenuItem>
+                        <MenuItem value="kg">kg</MenuItem>
+                        <MenuItem value="ml">ml</MenuItem>
+                        <MenuItem value="l">l</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                <Button
+                variant='outlined'
+                // onClick={addingredients}
+                >
+                  Dodaj
+                </Button>
+                  </div>
+
+
+                  Twoje składniki:
+               <Table size="small" aria-label="a dense table">
+                 <TableHead>
+                   <TableRow>
+                     <TableCell>Składnik</TableCell>
+                     <TableCell align="right">Ilość</TableCell>
+                     <TableCell align="right">Jednostka</TableCell>
+                   </TableRow>
+                 </TableHead>
+                 <TableBody>
+            
+               
+                     <TableRow
+                
+                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                     >
+                       <TableCell component="th" scope="row">
+                         uhvuyvucy
+                       </TableCell>
+                       <TableCell align="right">ugugyufyf</TableCell>
+                       <TableCell align="right">uiguyyfytd</TableCell>
+                       <TableCell align="right">
+                         <DeleteIcon 
+                         style={{cursor: 'pointer', color: 'red'}}
+                        //  onClick={() => deleteIngredients(el.name_ingredients)}
+                         />
+                         </TableCell>
+                     </TableRow>
+
+                 </TableBody>
+               </Table> 
           <Divider />
           <ListItem>
             <ListItemText
@@ -145,14 +239,16 @@ const changeAddPhoto = () => {
                 sty={{width: '100%'}}
                 id="outlined-multiline-static"
                 label="Nowy sposób"
-                value={changePrepare}
-                onChange={e=> setChangePrepare(e.target.value)}
+                // value={changePrepare}
+                // onChange={e=> setChangePrepare(e.target.value)}
                 multiline
                 rows={4}
                 />
               }
             />
           </ListItem>
+
+
           <Divider />
           <ListItem>
             <ListItemText primary={`Czas [min]`} 

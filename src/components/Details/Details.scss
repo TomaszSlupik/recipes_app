@@ -5,6 +5,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &__btn {
+        position: absolute;
+        right: 4%;
+    }
     &__box {
         width: 90%;
         color: #21415b;

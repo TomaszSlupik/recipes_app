@@ -236,20 +236,12 @@ const handlerPrepare = (e) => {
 }
 
 const handlerKind = (e) => {
-  console.log(errKind)
-  e.preventDefault()
   setKind(e.target.value)
   setErrKind('Ok')
-  const errKindAlert = document.querySelector('.errKindAlert')
-  errKindAlert.style.display = 'none'
 }
 
 const handlerLevel = (e) => {
-    e.preventDefault()
     setLevel (e.target.value)
-    setErrLevel('OK')
-    const errLevelAlert = document.querySelector('.errLevelAlert')
-    errLevelAlert.style.display = 'none'
 }
 
 
@@ -338,7 +330,8 @@ const style = {
                         onChange={e => setUnit(e.target.value)}
                         // input={<BootstrapInput />}
                       >
-      
+                        <MenuItem value="szklanka">szklanka</MenuItem>
+                        <MenuItem value="łyżka">łyżka</MenuItem>
                         <MenuItem value="szt.">szt.</MenuItem>
                         <MenuItem value="g">g</MenuItem>
                         <MenuItem value="kg">kg</MenuItem>
@@ -538,18 +531,7 @@ const style = {
                         <MenuItem value="Desery">Desery</MenuItem>
                       </Select>
                 </FormControl>
-                {
-                  errKind === '' || errKind === 'OK'
-                  ?
-                  (
-                    <div></div>
-                  )
-                  :
-                  (<Alert 
-                  className='errKindAlert'
-                  severity="error">{errKind}
-                  </Alert>)
-                }
+             
                 </div>
 
 
@@ -570,18 +552,7 @@ const style = {
                         <MenuItem value="trudny">trudny</MenuItem>
                       </Select>
                 </FormControl>
-                {
-                  errLevel === '' || errLevel === 'OK'
-                  ?
-                  (
-                    <div></div>
-                  )
-                  :
-                  (<Alert 
-                  className='errLevelAlert'
-                  severity="error">{errLevel}
-                  </Alert>)
-                }
+   
                 </div>
                 <div className="addMeals__calendar">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

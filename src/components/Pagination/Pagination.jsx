@@ -51,7 +51,7 @@ export default function Pagination({totalPost, postPerPage, currentPage, setCurr
                     key={index}
                     onClick={() => setCurrentPage(el)}
                     size="small" 
-                    style={{margin: '0em 0.3em'}}
+                    style={{margin: '0.5em 0.3em'}}
                     color={el === currentPage ? 'primary' : ''} 
                     aria-label="add">
                     {el}

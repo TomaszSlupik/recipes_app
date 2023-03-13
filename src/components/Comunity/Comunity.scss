@@ -9,4 +9,34 @@
         flex-direction: row;
         align-items: center;
     }
+    &__textBack {
+        position: relative;
+        width: 100%;
+        &-btn {
+            position: relative;
+            left: 0%;
+            width: 98.5%;
+            &--click {
+                position: absolute;
+                width: 100%;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+        
+    }
+    &__users {
+        margin-top: 3em;
+    }
+    &__info {
+        position: relative;
+        width: 60%;
+        height: 100%;
+        text-align: justify;
+        color: #999;
+        font-size: 0.8rem;
+        padding: 0.4em 0.2em;
+        margin-left: 0.5em;
+    }
 }
+

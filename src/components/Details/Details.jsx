@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
 import './Details.scss'
 import { styled } from '@mui/material/styles';
@@ -7,6 +7,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import SpeedIcon from '@mui/icons-material/Speed';
 import TimerIcon from '@mui/icons-material/Timer';
+import Button from '@mui/material/Button';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+
 
 export default function Details() {
 
@@ -101,11 +104,24 @@ export default function Details() {
         height: '100%'
       });
 
-
+      let navigate = useNavigate()
+     
+    const goToBack = () => {
+        navigate('/recipes_app')
+    }
 
   return (
     <>
     <div className="header">
+        <div className="header__btn">
+            <Button
+            variant='contained'
+            onClick={goToBack}
+            >
+            Powrót
+            <FastRewindIcon />
+            </Button>
+        </div>
         <div className="header__box">
         {namemealtoString}
         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from '../../firebase/axios'
 import Badge from '@mui/material/Badge';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
@@ -11,11 +11,12 @@ import breakpoints from '../../theme/breakpoints';
 import Myrecipecard from '../../styles/myrecipecard';
 import Card from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
+import Button from '@mui/material/Button';
 
 export default function Comunitydetails() {
 
     const nameUserParams = useParams()
-    
     const [userName, setUserName] = useState(nameUserParams)
     const [usercurrentID, setUserCurrentId] = useState([])
     const [userCurrentData, setUserCurrentData] = useState([])
@@ -31,7 +32,7 @@ export default function Comunitydetails() {
           for (const key in res.data) {
             currentuserID.push({...res.data[key], id: key})
           }
-
+          // filter(el => el.nameUser === userName.nameuser).map(el => el.userId)
           setUserCurrentId(currentuserID.filter(el => el.nameUser === userName.nameuser).map(el => el.userId))
           
 
@@ -105,17 +106,31 @@ export default function Comunitydetails() {
       transition: theme.transitions.create('opacity'),
     }));
   
+    const navigate = useNavigate()
+
+    const goToUser = () => {
+        navigate('/recipes_app/comunity')
+    }
+
+
   return (
     <div className='comunitydetails'>
       <div className="comunitydetails__length">Liczba posiłków użytkownika: <span style={{fontWeight: 'bold'}}>{nameUserParams.nameuser} </span>
       <Badge 
-      
       badgeContent={lengthMeal} color="success">
         <DinnerDiningIcon
         style={style.badge}
         color="action" />
       </Badge>
+      <Button
+      style={{position: 'absolute', right: '2%'}}
+      onClick={goToUser}
+      variant='contained'>
+            Powrót 
+            <FastRewindIcon />
+          </Button>
     </div>
+
       <div className="comunitydetails__box">
       
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>

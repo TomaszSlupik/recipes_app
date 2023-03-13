@@ -50,7 +50,7 @@ const handleOpenOption = () => {
 const navigate = useNavigate()
 
 const goToComunity = () => {
-    navigate('/recipes__app/comunity')
+    navigate('/recipes_app/comunity')
 }
 
   return (

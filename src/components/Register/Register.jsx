@@ -64,7 +64,7 @@ const submitRegister = async (e) => {
   })
     setLogin(res.data)
     closeRegister()
-    navigate('/recipes_app/profile')
+    navigate('/recipes_app')
   }
   catch (ex) {
       setErorr(ex.response.data.error.message)
