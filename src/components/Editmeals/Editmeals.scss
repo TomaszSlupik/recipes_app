@@ -1,4 +1,5 @@
 .editmeals {
+    position: relative;
     &__textCamera, &__boxCamera, &__avatar {
         margin-left: 0.8em;
         margin-top: 0.5em;
@@ -15,6 +16,28 @@
         padding: 0.4em 0.3em;
         margin-left: 0.5em;
         text-align: justify;
+    }
+
+    &__boxingredients {
+        margin-left: 0.8em;
+        display: flex;
+        flex-direction: column;
+        width: 54%;
+    }
+    &__unitBtn {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 90%;
+    }
+    &__info {
+        margin-left: 0.5em;
+    }
+    &__infoErr {
+        color: red;
+        font-size: 0.8rem;
+        padding: 0.4em 0.3em;
+        margin-left: 0.5em;
     }
 
 }

@@ -328,7 +328,6 @@ const style = {
                         id="demo-customized-select"
                         value={unit}
                         onChange={e => setUnit(e.target.value)}
-                        // input={<BootstrapInput />}
                       >
                         <MenuItem value="szklanka">szklanka</MenuItem>
                         <MenuItem value="łyżka">łyżka</MenuItem>

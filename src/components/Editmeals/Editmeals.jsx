@@ -55,15 +55,40 @@ const handleChange = (newValue) => {
   setChangeData(newValue)
 }
 
+// Edycja i dodanie składników 
+const [changeNameIngredients, setchangeNameIngredients] = useState()
+const [changeQuantity, setChangeQuantity] = useState()
+const [changeUnit, setChangeUnit] = useState()
+const [changeAllIngredients, setchangeAllIngredients] = useState([])
+
+const editIngredients = (e) => {
+  e.preventDefault()
+  const newIngredients = {
+    changeNameIngredients: changeNameIngredients,
+    changeQuantity: changeQuantity, 
+    changeUnit: changeUnit
+  }
+
+  const allIngredients = [...changeAllIngredients, newIngredients]
+  setchangeAllIngredients(allIngredients)
+
+}
+
+
+const deleteIngredients = (name) => {
+      const newArr = [...changeAllIngredients]
+      setchangeAllIngredients(newArr.filter (el => el.changeNameIngredients !== name))
+      
+}
 
 // Edycja całego przepisu
 const editThisMeal = async () => {
     try { 
       await axios.put(`/recipes/${id}.json` , {
       namemeal: changeNameMeal, 
-      name_ingredients: 'haha',
-      quantity: 'hahaha',
-      unit: 'wow',
+      name_ingredients: changeNameIngredients,
+      quantity: changeQuantity,
+      unit: changeUnit,
       prepare: changePrepare,
       time: changeTime,
       image: changeUrl, 
@@ -143,12 +168,12 @@ const changeAddPhoto = () => {
                 <div className="addMeals__box-headerInfo">
                   W polu składnik wpisz samą nazwę składnika, w polu ilość wybierz ilość posiłku oraz wybierz jednostkę i kliknij przycisk dodaj.
                 </div>
-                <div className="addMeals__box-field">
+                <div className="editmeals__boxingredients">
                 <TextField
                 id="standard-multiline-flexible"
                 label="Składnik"
-                // value={name_ingredients}
-                // onChange={e => setName_ingredients(e.target.value)}
+                value={changeNameIngredients}
+                onChange={e => setchangeNameIngredients(e.target.value)}
                 multiline
                 maxRows={4}
                 variant="standard"
@@ -157,8 +182,8 @@ const changeAddPhoto = () => {
                 id="standard-number"
                 step="0.1"
                 label="Ilość składników"
-                // value={quantity}
-                // onChange={e => setQuantity(e.target.value)}
+                value={changeQuantity}
+                onChange={e => setChangeQuantity(e.target.value)}
                 type="number"
                 InputLabelProps={{
                     shrink: true,
@@ -166,7 +191,7 @@ const changeAddPhoto = () => {
                 variant="standard"
                 />
                 </div>
-                  <div className="addMeals__box-add">
+                  <div className="editmeals__unitBtn">
                   <FormControl 
                   style={{width: '60%'}}
                   sx={{ m: 2 }} variant="standard">
@@ -176,8 +201,8 @@ const changeAddPhoto = () => {
                       defaultValue=""
                         labelId="demo-customized-select-label"
                         id="demo-customized-select"
-                        // value={unit}
-                        // onChange={e => setUnit(e.target.value)}
+                        value={changeUnit}
+                        onChange={e => setChangeUnit(e.target.value)}
                         // input={<BootstrapInput />}
                       >
                         <MenuItem value="szklanka">szklanka</MenuItem>
@@ -192,44 +217,55 @@ const changeAddPhoto = () => {
 
                 <Button
                 variant='outlined'
-                // onClick={addingredients}
+                onClick={editIngredients}
                 >
                   Dodaj
                 </Button>
                   </div>
-
-
-                  Twoje składniki:
-               <Table size="small" aria-label="a dense table">
-                 <TableHead>
-                   <TableRow>
-                     <TableCell>Składnik</TableCell>
-                     <TableCell align="right">Ilość</TableCell>
-                     <TableCell align="right">Jednostka</TableCell>
-                   </TableRow>
-                 </TableHead>
-                 <TableBody>
-            
+                      <div className="editmeals__info">
+                      Twoje składniki:
+                      </div>
+                  {
+                    changeAllIngredients.length === 0 ?
+                    <div className='editmeals__infoErr'>Aktualnie brak edytowanych nowych składników</div>
+                    :
+                    (
+                        <Table 
+                        
+                        size="small" aria-label="a dense table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Składnik</TableCell>
+                            <TableCell align="right">Ilość</TableCell>
+                            <TableCell align="right">Jednostka</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {changeAllIngredients.map((el, index) => {
+                          return (
+                            <TableRow
+                              key={index}
+                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                              <TableCell component="th" scope="row">
+                                {el.changeNameIngredients}
+                              </TableCell>
+                              <TableCell align="right">{el.changeQuantity}</TableCell>
+                              <TableCell align="right">{el.changeUnit}</TableCell>
+                              <TableCell align="right">
+                                <DeleteIcon 
+                                style={{cursor: 'pointer', color: 'red'}}
+                                onClick={() => deleteIngredients(el.changeNameIngredients)}
+                                />
+                                </TableCell>
+                            </TableRow>
+                            )
+                          })}
+                        </TableBody>
+                      </Table>  
+                    )
+                  }
                
-                     <TableRow
-                
-                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                     >
-                       <TableCell component="th" scope="row">
-                         uhvuyvucy
-                       </TableCell>
-                       <TableCell align="right">ugugyufyf</TableCell>
-                       <TableCell align="right">uiguyyfytd</TableCell>
-                       <TableCell align="right">
-                         <DeleteIcon 
-                         style={{cursor: 'pointer', color: 'red'}}
-                        //  onClick={() => deleteIngredients(el.name_ingredients)}
-                         />
-                         </TableCell>
-                     </TableRow>
-
-                 </TableBody>
-               </Table> 
           <Divider />
           <ListItem>
             <ListItemText

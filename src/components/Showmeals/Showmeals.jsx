@@ -11,7 +11,6 @@ import CardActions from '@mui/material/CardActions';
 import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
 import Button from '@mui/material/Button';
 import { Link} from 'react-router-dom';
-import Details from '../Details/Details';
 import themeColor from '../../theme/themecolor';
 import './Showmeals.scss'
 import SettingsIcon from '@mui/icons-material/Settings';

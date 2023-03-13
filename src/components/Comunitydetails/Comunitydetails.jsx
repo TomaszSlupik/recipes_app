@@ -13,6 +13,19 @@ import Card from '@mui/material/Card';
 import { styled } from '@mui/material/styles';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import Button from '@mui/material/Button';
+import themeColor from '../../theme/themecolor';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import useLogin from '../../hooks/useLogin';
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function Comunitydetails() {
 
@@ -20,6 +33,10 @@ export default function Comunitydetails() {
     const [userName, setUserName] = useState(nameUserParams)
     const [usercurrentID, setUserCurrentId] = useState([])
     const [userCurrentData, setUserCurrentData] = useState([])
+
+    const data = useLogin()
+    console.log(data)
+    console.log(usercurrentID)
 
     // Wyszukanie z bazy konkretnego użytkownika  - w którego Kliknięto 
 
@@ -80,7 +97,8 @@ export default function Comunitydetails() {
 
     // style 
     const style = {
-      badge: {fontSize: '2rem', color: 'black'}
+      badge: {fontSize: '2rem', color: 'black'}, 
+      btn: {position: 'absolute', bottom: '2%', right: '4%'}
     }
 
     const ImageSrc = styled('span')({
@@ -112,6 +130,17 @@ export default function Comunitydetails() {
         navigate('/recipes_app/comunity')
     }
 
+    // Informacje dla użytkownika 
+    const [openUser, setOpenUser] = useState(false)
+
+    const handlerOpen = () => {
+      setOpenUser(true)
+    }
+
+    const hadlerClose = () => {
+      setOpenUser(false)
+    }
+
 
   return (
     <div className='comunitydetails'>
@@ -139,22 +168,58 @@ export default function Comunitydetails() {
             {
               userIdEqual.map ((el, index) => {
                 return (
+                  <>
                   <Grid item xs={12} sm={12} md={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
                   <Myrecipecard>
                   <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
                 <ImageBackdrop className="MuiImageBackdrop-root" />
-        
-        
+                    
+                  <Button 
+                  theme={themeColor}
+                  variant='contained'
+                  style={style.btn}
+                  onClick={handlerOpen}
+                  >
+                    Zobacz
+                  </Button>
                 </Card>
                 </Myrecipecard>
                 </Grid>
+
+                <Dialog
+                open={openUser}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={hadlerClose}
+                aria-describedby="alert-dialog-slide-description"
+                >
+                <DialogTitle>{"Testowanie"}</DialogTitle>
+                <DialogContent>
+                <DialogContentText id="alert-dialog-slide-description">
+                  
+                </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                <Button 
+                variant='outlined'
+                theme={themeColor}
+                onClick={hadlerClose}>Anuluj</Button>
+                <Button 
+                theme={themeColor}
+                variant='contained'
+                onClick={hadlerClose}>Kontakt</Button>
+                </DialogActions>
+                </Dialog>
+                </>
                 )
               })
             }
         </ThemeProvider>
         </Grid>
         </Box>
+          
+        
       </div>
     </div>
   )
