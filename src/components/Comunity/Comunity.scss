@@ -2,12 +2,26 @@
     position: relative;
     width: 100vw;
     height: 100%;
-    &__header {
-        font-size: 1.8rem;
-        padding: 0.4em 0.5em;
+    &__headerBox {
+        position: relative;
+        width: 100vw;
+        height: 100%;
         display: flex;
         flex-direction: row;
-        align-items: center;
+        &-img {
+            width: 50%;
+            height: 200px;
+        }
+        &-header {
+            padding: 0.4em 0.5em;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 50%;
+            text-align: justify;
+            font-size: 1rem;
+          
+        }
     }
     &__textBack {
         position: relative;
@@ -39,4 +53,58 @@
         margin-left: 0.5em;
     }
 }
+
+@media only screen and (min-width: 576px) {
+    .comunity {
+        &__headerBox {
+            &-img {
+                height: 210px;
+            }
+            &-header {
+                font-size: 1.6rem;
+            }
+        }
+    }
+} 
+
+@media only screen and (min-width: 768px) {
+    .comunity {
+        &__headerBox {
+            &-img {
+                height: 240px;
+            }
+            &-header {
+                font-size: 2.2rem;
+            }
+        }
+    }
+} 
+
+@media only screen and (min-width: 992px) {
+    .comunity {
+        &__headerBox {
+            &-img {
+                height: 270px;
+            }
+            &-header {
+                font-size: 3rem;
+            }
+        }
+    }
+} 
+
+@media only screen and (min-width: 1200px) {
+    .comunity {
+        &__headerBox {
+            &-img {
+                height: 325px;
+            }
+            &-header {
+                font-size: 3.8rem;
+            }
+        }
+    }
+} 
+
+
 

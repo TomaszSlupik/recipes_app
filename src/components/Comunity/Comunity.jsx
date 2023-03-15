@@ -79,11 +79,15 @@ export default function Comunity() {
 
     }
     
+console.log(window.innerWidth)
 
   return (
     <div className='comunity'>
-        <div className="comunity__header">
+        <div className="comunity__headerBox">
+        <div className="comunity__headerBox-header">
             Lista wszystkich użytkowników <PeopleIcon style={{marginLeft: '0.4em', fontSize: '3rem'}}/>
+        </div>
+        <img src={process.env.PUBLIC_URL + window.innerWidth  < 576 ? '/recipes_app/img/computer.jpg' : '/recipes_app/img/computerBig.jpg'} alt="" className="comunity__headerBox-img" />
         </div>
         <div className="comunity__textBack">
           <div className="comunity__textBack-btn">
