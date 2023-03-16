@@ -18,8 +18,7 @@
             flex-direction: row;
             align-items: center;
             width: 50%;
-            text-align: justify;
-            font-size: 1rem;
+            font-size: 1.2rem;
           
         }
     }
@@ -35,6 +34,7 @@
                 width: 100%;
                 display: flex;
                 justify-content: flex-end;
+                align-items: center;
             }
         }
         
@@ -100,8 +100,19 @@
                 height: 325px;
             }
             &-header {
-                font-size: 3.8rem;
+                font-size: 4rem;
             }
+        }
+    }
+} 
+
+@media only screen and (min-width: 1400px) {
+    .comunity {
+        &__headerBox {
+            &-img {
+                height: 410px;
+            }
+           
         }
     }
 } 

@@ -9,8 +9,26 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import { useNavigate} from 'react-router-dom';
-import Comunitydetails from '../Comunitydetails/Comunitydetails';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
+import { ThemeProvider } from '@emotion/react';
+import breakpoints from '../../theme/breakpoints'
+import Myicon from '../../styles/myicon'
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 export default function Comunity() {
 
@@ -64,7 +82,7 @@ export default function Comunity() {
     // Przechwytywanie informacji o nazwie i ID 
     const [comunityUserId, setComunityUserID] = useState()
     const [comunityName, setComunityName] = useState("")
-    console.log(comunityName)
+   
     
     const clickUserId = (id, name) => {
             setComunityUserID(id)
@@ -78,14 +96,78 @@ export default function Comunity() {
       navigateTwo('/recipes_app')
 
     }
+
+
     
-console.log(window.innerWidth)
+// Option 
+
+const [openOption, setOpenOption] = useState(false)
+const [sortAZ, setSortAZ] = useState(false)
+const [sortZA, setSortZA] = useState(false)
+const [disabledAZ, setDisabledAZ] = useState(false)
+const [disabledZA, setDisabledZA] = useState(false)
+
+// Blokowanie innych przycisków po kliknięciu 
+const handlerClickSortAZ = (e) => {
+  setSortAZ(e.target.checked)
+  if (sortAZ === true) {
+    setDisabledZA(false)
+  }
+  else {
+    setDisabledZA(true)
+  }
+}
+
+const handlerClickSortZA = (e) => {
+  setSortZA(e.target.checked)
+  if (sortZA === true) {
+    setDisabledAZ(false)
+  }
+  else {
+    setDisabledAZ(true)
+  }
+}
+
+
+// Sortownaie 
+const handlerSortUSerAZ = () => {
+      users.sort((a,b) => a.nameUser < b.nameUser ? -1 : 1)
+}
+
+const handlerSortUSerZA = () => {
+    users.sort((a, b) => a.nameUser < b.nameUser ? 1 : -1)
+}
+
+const handleCloseOption = () => {
+  if (sortAZ === true) {
+    handlerSortUSerAZ()
+  }
+  else if (sortZA === true) {
+    handlerSortUSerZA()
+  }
+  setOpenOption(false)
+}
+
+const handleOpenOption = () => {
+  setSortAZ(false)
+  setSortZA(false)
+  setDisabledAZ(false)
+  setDisabledZA(false)
+  setOpenOption(true)
+}
+
 
   return (
     <div className='comunity'>
         <div className="comunity__headerBox">
         <div className="comunity__headerBox-header">
-            Lista wszystkich użytkowników <PeopleIcon style={{marginLeft: '0.4em', fontSize: '3rem'}}/>
+            Lista wszystkich użytkowników 
+            <ThemeProvider theme={breakpoints}>
+              <Myicon>
+                <PeopleIcon style={{marginLeft: '0.4em', fontSize: '100%'}}/>
+              </Myicon>
+            </ThemeProvider>
+            
         </div>
         <img src={process.env.PUBLIC_URL + window.innerWidth  < 576 ? '/recipes_app/img/computer.jpg' : '/recipes_app/img/computerBig.jpg'} alt="" className="comunity__headerBox-img" />
         </div>
@@ -109,7 +191,52 @@ console.log(window.innerWidth)
                <Table size="small" aria-label="a dense table">
                       <TableHead>
                         <TableRow>
-                          <TableCell style={{fontWeight: '700'}}>Użytkownicy</TableCell>
+                          <TableCell style={{fontWeight: '700'}}>Użytkownicy
+                          <Button
+                          style={{marginLeft: '0.5em'}}
+                          variant="contained"
+                          onClick={handleOpenOption}
+                          >
+                              < FilterAltIcon />
+                          </Button>
+                          <Dialog
+                            open={openOption}
+                            TransitionComponent={Transition}
+                            keepMounted
+                            onClose={handleCloseOption}
+                            aria-describedby="alert-dialog-slide-description"
+                          >
+                            <DialogTitle>{"Opcje wyświetlania"}</DialogTitle>
+                            <DialogContent>
+                              <DialogContentText id="alert-dialog-slide-description">
+                              <FormGroup>
+                              <FormControlLabel control={
+                              <Checkbox 
+                              disabled={disabledAZ}
+                              checked={sortAZ}
+                              onChange={handlerClickSortAZ}   
+                              />} 
+                              label="Sortuj [A-Z]" />
+                              <FormControlLabel control={
+                              <Checkbox 
+                              checked={sortZA}
+                              disabled={disabledZA}
+                              onChange={handlerClickSortZA}
+                              />} label="Sortuj [Z-A]" />
+                            </FormGroup>
+                              </DialogContentText>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button 
+                              variant='outlined'
+                              onClick={handleCloseOption}>Anuluj</Button>
+                              <Button
+                              variant='contained'
+                              onClick={handleCloseOption}>Akcteptuję</Button>
+                            </DialogActions>
+                          </Dialog>
+                          
+                          </TableCell>
                           <TableCell align="right"> Lista przepisów</TableCell>
                         </TableRow>
                       </TableHead>

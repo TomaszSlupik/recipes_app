@@ -35,9 +35,6 @@ export default function Comunitydetails() {
     const [userCurrentData, setUserCurrentData] = useState([])
 
     const data = useLogin()
-    console.log(data)
-    console.log(usercurrentID)
-
     // Wyszukanie z bazy konkretnego użytkownika  - w którego Kliknięto 
 
     const readUserId = async() => {
