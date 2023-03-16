@@ -11,3 +11,35 @@
         font-size: 0.8rem;
     }
 }
+
+@media only screen and (min-width: 576px) {
+    .comunitydetails {
+        &__length {
+            font-size: 1.4rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .comunitydetails {
+        &__length {
+            font-size: 2rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .comunitydetails {
+        &__length {
+            font-size: 2.5rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .comunitydetails {
+        &__length {
+            font-size: 3.4rem;
+        }
+    }
+}

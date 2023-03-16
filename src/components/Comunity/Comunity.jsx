@@ -87,7 +87,8 @@ export default function Comunity() {
     const clickUserId = (id, name) => {
             setComunityUserID(id)
             setComunityName(name)
-            navigate(`/recipes_app/comunity/${comunityName}`)
+
+            navigate(`/recipes_app/comunity/${name}`)
     }     
     
     const navigateTwo = useNavigate()

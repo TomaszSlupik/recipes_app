@@ -17,7 +17,7 @@ export default function Searchbar(props) {
   return (
     <div className='searchbar'>
        <Mysearch
-       placeholder='Szukaj'
+       placeholder='Szukaj posiłku'
        value={searchRecipeInput}
        onChange={handlerSearch}
        onKeyDown={props.clikBackspace}

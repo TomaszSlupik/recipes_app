@@ -219,7 +219,7 @@ export default function Paneluser({logoutUser}) {
                     Profil i ustawienia
                   </div>
                   <div className="paneluserShow__mycard-user">
-                    Twoja nazwa użytkownika: <div style={{fontWeight: 500}}>{userShow}</div>
+                    Twoja nazwa użytkownika: <div style={{fontWeight: 500, color: '#21415b'}}>{userShow}</div>
                   </div>
                   <Divider />
                   <div className="paneluserShow__mycard-edit">

@@ -21,6 +21,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import useLogin from '../../hooks/useLogin';
+import Myiconmeals from '../../styles/myicon';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -94,7 +95,7 @@ export default function Comunitydetails() {
 
     // style 
     const style = {
-      badge: {fontSize: '2rem', color: 'black'}, 
+      badge: {fontSize: '100%', color: 'black'}, 
       btn: {position: 'absolute', bottom: '2%', right: '4%'}
     }
 
@@ -129,8 +130,13 @@ export default function Comunitydetails() {
 
     // Informacje dla użytkownika 
     const [openUser, setOpenUser] = useState(false)
+    const [nameMealShowInfo, setNameMealShowInfo] = useState()
+    const [prepareMealShowInfo, setPrepareMealShowInfo] = useState()
 
-    const handlerOpen = () => {
+    const handlerOpen = (e, name, prepare) => {
+      e.preventDefault()
+      setNameMealShowInfo(name)
+      setPrepareMealShowInfo(prepare)
       setOpenUser(true)
     }
 
@@ -142,12 +148,16 @@ export default function Comunitydetails() {
   return (
     <div className='comunitydetails'>
       <div className="comunitydetails__length">Liczba posiłków użytkownika: <span style={{fontWeight: 'bold'}}>{nameUserParams.nameuser} </span>
-      <Badge 
-      badgeContent={lengthMeal} color="success">
+      <ThemeProvider theme={breakpoints}>
+        <Myiconmeals>
+        <Badge 
+        badgeContent={lengthMeal} color="success">
         <DinnerDiningIcon
         style={style.badge}
         color="action" />
       </Badge>
+        </Myiconmeals>
+      </ThemeProvider>
       <Button
       style={{position: 'absolute', right: '2%'}}
       onClick={goToUser}
@@ -176,7 +186,7 @@ export default function Comunitydetails() {
                   theme={themeColor}
                   variant='contained'
                   style={style.btn}
-                  onClick={handlerOpen}
+                  onClick={(e) => handlerOpen(e, el.namemeal, el.prepare)}
                   >
                     Zobacz
                   </Button>
@@ -191,10 +201,10 @@ export default function Comunitydetails() {
                 onClose={hadlerClose}
                 aria-describedby="alert-dialog-slide-description"
                 >
-                <DialogTitle>{"Testowanie"}</DialogTitle>
+                <DialogTitle>{`Przepis ${nameMealShowInfo}`}</DialogTitle>
                 <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                  
+                  {prepareMealShowInfo}
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>

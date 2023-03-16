@@ -9,11 +9,9 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        margin-left: 0.4em;
         margin: 0em 0.4em;
         &-email {
             font-size: 0.8rem;
-            margin-left: 0.6em;
         }
         &-btn {
             position: absolute;
@@ -28,9 +26,14 @@
 .paneluserShow {
     position: relative;
     width: 100vw;
-    height: 100%;
+    height: calc(100vh - 80px);
     &__mycard {
-        margin-left: 0.3em;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
         &-header {
             font-weight: 700;
             font-size: 2rem;
@@ -38,13 +41,15 @@
         &-name {
             display: flex;
             flex-direction: column;
-            margin-left: 0.5em;
             margin-top: 0.4em;
-            width: 70%;
+            align-items: center;
+            width: 100%;
+            margin-top: 0.4em;
         }
         &-user {
             font-size: 1.2rem;
             margin-bottom: 1em;
+            margin-top: 0.4em;
         }
         &-info {
             color: #999;
