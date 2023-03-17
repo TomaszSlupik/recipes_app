@@ -10,7 +10,7 @@ import { ThemeProvider } from '@emotion/react';
 import breakpoints from '../../theme/breakpoints';
 import Myrecipecard from '../../styles/myrecipecard';
 import Card from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
+import { styled, alpha } from '@mui/material/styles';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import Button from '@mui/material/Button';
 import themeColor from '../../theme/themecolor';
@@ -22,7 +22,13 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import useLogin from '../../hooks/useLogin';
 import Myiconmeals from '../../styles/myicon';
-
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -121,6 +127,44 @@ export default function Comunitydetails() {
       opacity: 0.4,
       transition: theme.transitions.create('opacity'),
     }));
+
+    const Search = styled('div')(({ theme }) => ({
+      position: 'relative',
+      borderRadius: theme.shape.borderRadius,
+      backgroundColor: '#fff',
+      marginRight: theme.spacing(2),
+      marginLeft: 0,
+      width: '100%',
+      [theme.breakpoints.up('sm')]: {
+        marginLeft: theme.spacing(3),
+        width: 'auto',
+      },
+    }));
+    
+    const SearchIconWrapper = styled('div')(({ theme }) => ({
+      padding: theme.spacing(0, 2),
+      height: '100%',
+      position: 'absolute',
+      pointerEvents: 'none',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }));
+    
+    const StyledInputBase = styled(InputBase)(({ theme }) => ({
+      color: 'inherit',
+      '& .MuiInputBase-input': {
+        padding: theme.spacing(1, 1, 1, 0),
+        // vertical padding + font size from searchIcon
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        transition: theme.transitions.create('width'),
+        width: '100%',
+        [theme.breakpoints.up('md')]: {
+          width: '20ch',
+        },
+      },
+    }));
+    
   
     const navigate = useNavigate()
 
@@ -144,6 +188,52 @@ export default function Comunitydetails() {
       setOpenUser(false)
     }
 
+// Filtrowanie po rodzaju posiłku 
+const [openKind, setOpenKind] = useState(false)
+
+const [appetizerCold, setAppetizerCold] = useState(false)
+const [disabledAppetizerCold, setDisabledAppetizerCold] = useState(false)
+
+const [appetizerHot, setAppetizerHot] = useState(false)
+const [disabledAppetizerHot, setDisabledAppetizerHot] = useState(false)
+
+const [soup, setSoup] = useState(false)
+const [disabledSoup, setDisabledSoup] = useState(false)
+
+const [mainMeal, setMainMeal] = useState(false)
+const [disabledMainMeal, setDisabledMainMeal] = useState(false)
+
+const [desert, setDesert] = useState(false)
+const [disabledDesert, setDisabledDesert] = useState(false)
+
+const handlerOpenKind = () => {
+      setOpenKind(true)
+}
+
+const handlerCloseKind = () => {
+    setOpenKind(false)
+} 
+
+const handlerAcceptFilter = () => {
+  setOpenKind(false)
+}
+
+const handlerClickAppetizerCold = (e) => {
+  setAppetizerCold(e.target.checked)
+  if (appetizerCold === true) {
+    setDisabledAppetizerHot(false)
+    setDisabledSoup(false)
+    setDisabledMainMeal(false)
+    setDisabledDesert(false)
+  }
+  else {
+    setDisabledAppetizerHot(true)
+    setDisabledSoup(true)
+    setDisabledMainMeal(true)
+    setDisabledDesert(true)
+  }
+}
+
 
   return (
     <div className='comunitydetails'>
@@ -166,7 +256,77 @@ export default function Comunitydetails() {
             <FastRewindIcon />
           </Button>
     </div>
-
+    <div className="comunitydetails__choiceMeal">
+      <Paper
+      style={{width: '100%', height: '100%', backgroundColor: '#21415b'}}
+      elevation={3}
+      >
+        <div className="comunitydetails__choiceMeal-search">
+        <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+        </Search>
+        </div>
+        <div className="comunitydetails__choiceMeal-btn">
+        <Button
+        color='secondary'
+        variant="contained"
+        onClick={handlerOpenKind}
+        >
+            < FilterAltIcon />
+        </Button>
+        </div>
+      </Paper>
+    
+       <Dialog
+        open={openKind}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handlerCloseKind}
+        aria-describedby="alert-dialog-slide-description"
+        >
+        <DialogTitle>Filtrowanie</DialogTitle>
+        <DialogContent>
+        <DialogContentText id="alert-dialog-slide-description">
+          <FormGroup>
+      <FormControlLabel control={<Checkbox 
+      disabled={disabledAppetizerCold}
+      checked={appetizerCold}
+      onChange={handlerClickAppetizerCold}
+      />} label="Przystawka zimna" />
+      <FormControlLabel control={<Checkbox 
+      disabled={disabledAppetizerHot}
+      />} label="Przystawka ciepła" />
+      <FormControlLabel control={<Checkbox 
+      disabled={disabledSoup}
+      />} label="Zupa" />
+      <FormControlLabel control={<Checkbox 
+      disabled={disabledMainMeal}
+       />} label="Danie główne" />
+      <FormControlLabel control={<Checkbox 
+      disabled={disabledDesert}
+       />} label="Desery" />
+    </FormGroup>
+        </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+        <Button 
+        variant='outlined'
+        theme={themeColor}
+        onClick={handlerCloseKind}>Anuluj</Button>
+        <Button 
+        theme={themeColor}
+        variant='contained'
+        onClick={handlerAcceptFilter}>Akcteptuję</Button>
+        </DialogActions>
+        </Dialog>
+        
+    </div>
       <div className="comunitydetails__box">
       
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>

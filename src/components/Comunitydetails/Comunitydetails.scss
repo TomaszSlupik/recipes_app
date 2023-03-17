@@ -10,6 +10,23 @@
         align-items: center;
         font-size: 0.8rem;
     }
+    &__choiceMeal {
+        position: relative;
+        width: 100vw;
+        height: 70px;
+        margin-top: 1em;
+        &-search {
+            position: absolute;
+            left: 2%;
+            top: 20%;
+        }
+        &-btn {
+            position: absolute;
+            right: 4%;
+            top: 20%;
+        }
+    }
+    
 }
 
 @media only screen and (min-width: 576px) {
