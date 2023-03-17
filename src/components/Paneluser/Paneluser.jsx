@@ -44,7 +44,8 @@ export default function Paneluser({logoutUser}) {
   };
 
    // Dodatkowe 
-   const [nameUser, setNameUser] = useState('')
+   const [nameUser, setNameUser] = useState(null)
+  
    const [detailUser, setDetailUser] = useState([])
    const [idUser] = useLogin()
  
@@ -67,9 +68,21 @@ export default function Paneluser({logoutUser}) {
    }
  
    // Edycja Usera do Bazy
-   const [newNameUser, setNewNameUSer] = useState()
+   const [newNameUser, setNewNameUSer] = useState("")
+   const [errNameUser, setErrNameUser] = useState()
+
+   console.log(newNameUser)
+
+   const saveEditUser = () => {
+    if (newNameUser === "") {
+      console.log('Do Zrobienia jeszcze, nie może być pustego Inputa')
+    }
+    else {
+      saveEditUserToDatabase()
+    }
+   }
  
-   const saveEditUser = async () => {
+   const saveEditUserToDatabase = async () => {
      const idpersonalusername = detailUser.map(el => el.id).toString()
      try {
          await axios.put(`/users/${idpersonalusername}.json`, {

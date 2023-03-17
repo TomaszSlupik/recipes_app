@@ -191,9 +191,11 @@ export default function Comunitydetails() {
 // Filtrowanie po rodzaju posiłku 
 const [openKind, setOpenKind] = useState(false)
 
+const [appetizerColdLabel, setAppetizerColdLabel] = useState("Przystawka zimna")
 const [appetizerCold, setAppetizerCold] = useState(false)
 const [disabledAppetizerCold, setDisabledAppetizerCold] = useState(false)
 
+const [appetizerHotLabel, setAppetizerHotLabel] = useState("Przystawka ciepła")
 const [appetizerHot, setAppetizerHot] = useState(false)
 const [disabledAppetizerHot, setDisabledAppetizerHot] = useState(false)
 
@@ -214,25 +216,43 @@ const handlerCloseKind = () => {
     setOpenKind(false)
 } 
 
+const mealClickUser = []
+
+const clickTrue = true
 const handlerAcceptFilter = () => {
+  switch (clickTrue) {
+    case (appetizerCold): 
+      mealClickUser.push(`${appetizerCold}Przystawka zimna`)
+    case (appetizerHot):
+      mealClickUser.push(`${appetizerHot}Przystawka ciepła`)
+    default:
+      console.log('Działaa')
+  }
+
+  function el (mealClickUser) {
+    return mealClickUser.startsWith('true')
+  }
+  const allClickUser = mealClickUser.filter(el).map(el => el.substr(4))
+  console.log(allClickUser)
+
+  const idString = usercurrentID.toString()
+  const userIdEqual = userCurrentData.filter(el => el.userId === idString)
+  console.log(userIdEqual)
+
+
+  const newArr = userIdEqual.filter(el => el.kind === allClickUser.toString())
+  console.log(newArr)
   setOpenKind(false)
 }
 
 const handlerClickAppetizerCold = (e) => {
   setAppetizerCold(e.target.checked)
-  if (appetizerCold === true) {
-    setDisabledAppetizerHot(false)
-    setDisabledSoup(false)
-    setDisabledMainMeal(false)
-    setDisabledDesert(false)
-  }
-  else {
-    setDisabledAppetizerHot(true)
-    setDisabledSoup(true)
-    setDisabledMainMeal(true)
-    setDisabledDesert(true)
-  }
 }
+
+const handlerClickAppetizerHot = (e) => {
+  setAppetizerHot(e.target.checked)
+}
+
 
 
   return (
@@ -298,10 +318,12 @@ const handlerClickAppetizerCold = (e) => {
       disabled={disabledAppetizerCold}
       checked={appetizerCold}
       onChange={handlerClickAppetizerCold}
-      />} label="Przystawka zimna" />
+      />} label={appetizerColdLabel} />
       <FormControlLabel control={<Checkbox 
       disabled={disabledAppetizerHot}
-      />} label="Przystawka ciepła" />
+      checked={appetizerHot}
+      onChange={handlerClickAppetizerHot}
+      />} label={appetizerHotLabel} />
       <FormControlLabel control={<Checkbox 
       disabled={disabledSoup}
       />} label="Zupa" />
