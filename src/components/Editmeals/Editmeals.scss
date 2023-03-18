@@ -1,5 +1,11 @@
 .editmeals {
     position: relative;
+    &__errNameMeal, &__errChangePrepare, &__errChangeTime {
+        font-size: 0.8rem;
+        color: red;
+        padding: 0.4em 0.3em;
+        margin-left: 0.5em;
+    }
     &__textCamera, &__boxCamera, &__avatar {
         margin-left: 0.8em;
         margin-top: 0.5em;
@@ -32,6 +38,12 @@
     }
     &__info {
         margin-left: 0.5em;
+        &-errAll {
+            color: red;
+            font-size: 0.8rem; 
+            margin-left: 0.5em;
+            padding: 0.4em 0.3em;
+        }
     }
     &__infoErr {
         color: red;

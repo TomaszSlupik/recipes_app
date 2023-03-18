@@ -34,6 +34,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Alert from '@mui/material/Alert';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -42,9 +43,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Editmeals({id, clickMeal, editOpen, handleCloseEdit, clickImage}) {
 
-const [changeNameMeal, setChangeNameMeal] = useState()
-const [changePrepare, setChangePrepare] = useState()
-const [changeTime, setChangeTime] = useState()
+const [changeNameMeal, setChangeNameMeal] = useState("")
+const [changePrepare, setChangePrepare] = useState("")
+const [changeTime, setChangeTime] = useState("")
 const [changeUrl, setChangeUrl] = useState(clickImage)
 const [changeKind, setChangeKind] = useState()
 const [changeLevel, setChangeLevel] = useState()
@@ -79,6 +80,30 @@ const deleteIngredients = (name) => {
       const newArr = [...changeAllIngredients]
       setchangeAllIngredients(newArr.filter (el => el.changeNameIngredients !== name))
       
+}
+
+// Walidacja 
+const [errChangeNameMeal, setErrChangeNameMeal] = useState("")
+const [errChangeAllIngredients, setErrChangeAllIngredients] = useState("")
+const [errChangePrepare, setErrChangePrepare] = useState("")
+const [errChangeTime, setErrChangeTime] = useState("")
+
+const saveEditMeal = () => {
+  if (changeNameMeal === "") {
+    setErrChangeNameMeal("Podaj nową nazwę posiłku")
+  }
+  else if (changeAllIngredients.length === 0) {
+    setErrChangeAllIngredients("Podaj składniki do edytowanego posiłku")
+  }
+  else if (changePrepare === "") {
+    setErrChangePrepare("Podaj nowy przepis")
+  }
+  else if (changeTime === "") {
+    setErrChangeTime("Podaj czas")
+  }
+  else {
+    editThisMeal()
+  }
 }
 
 // Edycja całego przepisu
@@ -149,7 +174,7 @@ const changeAddPhoto = () => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Edytuj
             </Typography>
-            <Button autoFocus color="inherit" onClick={editThisMeal}>
+            <Button autoFocus color="inherit" onClick={saveEditMeal}>
               Zapisz
             </Button>
           </Toolbar>
@@ -163,6 +188,16 @@ const changeAddPhoto = () => {
             id="standard-basic" label="Nowy przepis" variant="standard" />
             }/>
           </ListItem>
+          {
+            changeNameMeal === "" ?
+            (
+              <div className='editmeals__errNameMeal'>{errChangeNameMeal}</div>
+            )
+            :
+            (
+              <div></div>
+            )
+          }
           <Divider />
     
                 <div className="addMeals__box-headerInfo">
@@ -265,6 +300,16 @@ const changeAddPhoto = () => {
                       </Table>  
                     )
                   }
+                  {
+                    changeAllIngredients.length === 0 ?
+                    (
+                      <div className='editmeals__info-errAll'>{errChangeAllIngredients}</div>
+                    )
+                    :
+                    (
+                      <div></div>
+                    )
+                  }
                
           <Divider />
           <ListItem>
@@ -275,25 +320,41 @@ const changeAddPhoto = () => {
                 sty={{width: '100%'}}
                 id="outlined-multiline-static"
                 label="Nowy sposób"
-                // value={changePrepare}
-                // onChange={e=> setChangePrepare(e.target.value)}
+                value={changePrepare}
+                onChange={e=> setChangePrepare(e.target.value)}
                 multiline
                 rows={4}
                 />
               }
             />
           </ListItem>
-
+            {
+              changePrepare === "" ?
+              (
+                <div className='editmeals__errChangePrepare'>{errChangePrepare}</div>
+              )
+              :
+              (
+                <div></div>
+              )
+            }
 
           <Divider />
           <ListItem>
             <ListItemText primary={`Czas [min]`} 
             secondary={
             <TextField 
+            value={changeTime}
             onChange={(e) => setChangeTime(e.target.value)}
             id="standard-basic" label="Nowy czas" variant="standard" />
             }/>
           </ListItem>
+          {
+            changeTime === "" ?
+            (<div className='editmeals__errChangeTime'>{errChangeTime}</div>)
+            :
+            (<div></div>)
+          }
           <Divider />
           <div className="editmeals__defaulttextcamera">
             Domyślnie ustawione jest stare zdjęcie. Aby wczytać nowe zdjęcię musisz kliknąć na kamerę i wybrać zdjęcię przepisu. Następnie kliknij dodaj zdjęcie. Jeżeli zdjęcie pojawi się w miniaturce oznacza to, że zdjęcie zostało wczytane poprawnie
