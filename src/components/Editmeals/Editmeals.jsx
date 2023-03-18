@@ -47,8 +47,8 @@ const [changeNameMeal, setChangeNameMeal] = useState("")
 const [changePrepare, setChangePrepare] = useState("")
 const [changeTime, setChangeTime] = useState("")
 const [changeUrl, setChangeUrl] = useState(clickImage)
-const [changeKind, setChangeKind] = useState()
-const [changeLevel, setChangeLevel] = useState()
+const [changeKind, setChangeKind] = useState("")
+const [changeLevel, setChangeLevel] = useState("")
 const [changeData, setChangeData] = React.useState(moment());
 const [user] = useLogin()
 // Zmiana daty
@@ -87,6 +87,8 @@ const [errChangeNameMeal, setErrChangeNameMeal] = useState("")
 const [errChangeAllIngredients, setErrChangeAllIngredients] = useState("")
 const [errChangePrepare, setErrChangePrepare] = useState("")
 const [errChangeTime, setErrChangeTime] = useState("")
+const [errChangeKind, setErrChangeKind] = useState("")
+const [errChangeLevel, setErrChangeLevel] = useState("")
 
 const saveEditMeal = () => {
   if (changeNameMeal === "") {
@@ -100,6 +102,12 @@ const saveEditMeal = () => {
   }
   else if (changeTime === "") {
     setErrChangeTime("Podaj czas")
+  }
+  else if (changeKind === "") {
+    setErrChangeKind('Wybierz rodzaj posiłku')
+  }
+  else if (changeLevel === "") {
+    setErrChangeLevel("Wybierz stopień trudności")
   }
   else {
     editThisMeal()
@@ -397,6 +405,16 @@ const changeAddPhoto = () => {
                       </Select>
                 </FormControl>
           </div>
+          {
+            changeKind === "" ?
+            (
+              <div className='editmeals__errChangeKind'>{errChangeKind}</div>
+            )
+            :
+            (
+              <div></div>
+            )
+          }
           <Divider />
             <div className="editmeals__level">
             <FormControl 
@@ -416,6 +434,16 @@ const changeAddPhoto = () => {
                       </Select>
                 </FormControl>
             </div>
+              {
+                changeLevel === "" ?
+                (
+                  <div className='editmeals__errChangeLevel'>{errChangeLevel}</div>
+                )
+                :
+                (
+                  <div></div>
+                )
+              }
           <Divider />
           <div className="editmeals__calendar">
             <LocalizationProvider dateAdapter={AdapterDayjs}>

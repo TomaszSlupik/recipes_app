@@ -91,8 +91,8 @@ const [name_ingredients, setName_ingredients] = useState()
 const [quantity, setQuantity] = useState()
 const [unit, setUnit] = useState()
 const [ingredients, setIngredients] = useState([])
-const [level, setLevel] = useState()
-const [kind, setKind] = useState()
+const [level, setLevel] = useState("")
+const [kind, setKind] = useState("")
 
 // Storage dla zdjęcia 
 const [image, setImage] = useState(null)
@@ -173,10 +173,10 @@ const addRecipes = async (e) => {
   else if (time === 0 || time === ''){
     setErrTime('Proszę podać czas')
   }
-  else if (errKind === '') {
+  else if (kind === '') {
     setErrKind('Proszę wybrać rodzaj posiłku')
   }
-  else if (errLevel === '') {
+  else if (level === '') {
     setErrLevel('Proszę wybrać stopień trudności')
   }
   else if (url === null) {
@@ -248,6 +248,8 @@ const handlerLevel = (e) => {
 const style = {
   paper: {position: 'relative', display: 'flex', flexDirection: 'column', width: '100%'}
 }
+
+console.log(kind)
 
 
   return (
@@ -524,13 +526,22 @@ const style = {
                         onChange={handlerKind}
                       >
                         <MenuItem value="Przystawka zimna">Przystawka zimna</MenuItem>
-                        <MenuItem value="Przystawka ciepł">Przystawka ciepła</MenuItem>
+                        <MenuItem value="Przystawka ciepła">Przystawka ciepła</MenuItem>
                         <MenuItem value="Zupa">Zupa</MenuItem>
                         <MenuItem value="Danie główne">Danie główne</MenuItem>
                         <MenuItem value="Desery">Desery</MenuItem>
                       </Select>
                 </FormControl>
-             
+                  {
+                    kind === "" ?
+                    (
+                    <div className="addMeals__kind-err">{errKind}</div>
+                    )
+                    :
+                    (
+                    <div></div>
+                    )
+                  }
                 </div>
 
 
@@ -551,7 +562,16 @@ const style = {
                         <MenuItem value="trudny">trudny</MenuItem>
                       </Select>
                 </FormControl>
-   
+                  {
+                    level === "" ?
+                    (
+                      <div className="addMeals__level-err">{errLevel}</div>
+                    )
+                    :
+                    (
+                      <div></div>
+                    )
+                  }
                 </div>
                 <div className="addMeals__calendar">
                     <LocalizationProvider dateAdapter={AdapterDayjs}>

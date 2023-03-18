@@ -59,5 +59,21 @@
             margin-left: 0.5em;
         }
     }
+    &__kind {
+        &-err {
+        font-size: 0.8rem;
+        color: red;
+        padding: 0.4em 0.3em;
+        margin-left: 0.5em;
+        }
+    }
+    &__level {
+        &-err {
+        font-size: 0.8rem;
+        color: red;
+        padding: 0.4em 0.3em;
+        margin-left: 0.5em;
+        }
+    }
 
 }

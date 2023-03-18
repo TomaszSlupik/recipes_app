@@ -1,6 +1,7 @@
 .editmeals {
     position: relative;
-    &__errNameMeal, &__errChangePrepare, &__errChangeTime {
+    &__errNameMeal, &__errChangePrepare, &__errChangeTime, &__errChangeKind,
+    &__errChangeLevel {
         font-size: 0.8rem;
         color: red;
         padding: 0.4em 0.3em;
