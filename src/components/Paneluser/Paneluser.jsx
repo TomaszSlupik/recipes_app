@@ -44,16 +44,24 @@ export default function Paneluser({logoutUser}) {
   };
 
    // Dodatkowe 
-   const [nameUser, setNameUser] = useState(null)
+   const [nameUser, setNameUser] = useState("")
+   const [errUser, setErrUser] = useState("")
   
    const [detailUser, setDetailUser] = useState([])
    const [idUser] = useLogin()
  
    const userShow = detailUser.map(el => el.nameUser).toString()
-   // Zapis szczegułów do Bazy 
-   const saveDataUser = async (e) => {
-     e.preventDefault()
-     
+   // Zapis szczegułów do Bazy i walidacja nowego Usera
+   const saveDataUser = () => {
+    if (nameUser === "") {
+      setErrUser("To pole nie może być puste!")
+    }
+    else {
+      saveDataUserToDatabase()
+    }
+   }
+
+   const saveDataUserToDatabase = async () => {
      try {
          await axios.post ('/users.json', {
            userId: user.localId, 
@@ -66,16 +74,17 @@ export default function Paneluser({logoutUser}) {
      handleClickClosePanel()
      window.location.reload(true)
    }
+
  
-   // Edycja Usera do Bazy
+   // Edycja istniejącego Usera do Bazy i walidacja 
    const [newNameUser, setNewNameUSer] = useState("")
-   const [errNameUser, setErrNameUser] = useState()
+   const [errNameUser, setErrNameUser] = useState("")
 
    console.log(newNameUser)
 
    const saveEditUser = () => {
     if (newNameUser === "") {
-      console.log('Do Zrobienia jeszcze, nie może być pustego Inputa')
+      setErrNameUser("To pole nie może być puste!")
     }
     else {
       saveEditUserToDatabase()
@@ -217,6 +226,20 @@ export default function Paneluser({logoutUser}) {
             </div>
             <div className="paneluserShow__mycard-name">
             Wprowadź nazwę użytkownika 
+            {
+                    nameUser === "" 
+                    ?
+                    (
+                      <div 
+                      className="paneluserShow__mycard-name--err"
+                      >{errUser}</div>
+                    )
+                    :
+                    (
+                      <div></div>
+                    )
+                  }
+
             <TextField 
             id="outlined-basic" 
             onChange={(e) => setNameUser(e.target.value)} 
@@ -242,7 +265,20 @@ export default function Paneluser({logoutUser}) {
                      Wpisując w pole nazwę użytkownika i zatwierdzając przyciskiem zapisz zmienisz swoją nazwę do profilu. 
                   </div>
                   <div className="paneluserShow__mycard-name">
-                  Wprowadź nową nazwę użytkownika 
+                  Wprowadź nową nazwę użytkownika
+                  {
+                    newNameUser === "" 
+                    ?
+                    (
+                      <div 
+                      className="paneluserShow__mycard-name--err"
+                      >{errNameUser}</div>
+                    )
+                    :
+                    (
+                      <div></div>
+                    )
+                  }
                   <TextField 
                   onChange={(e) => setNewNameUSer(e.target.value)}
                   id="outlined-basic" 

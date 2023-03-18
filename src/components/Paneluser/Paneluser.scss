@@ -46,6 +46,11 @@
             align-items: center;
             width: 100%;
             margin-top: 0.4em;
+            &--err {
+                color: red;
+                font-size: 0.8rem;
+                margin: 0.4em 0em;
+            }
         }
         &-user {
             font-size: 1.2rem;
