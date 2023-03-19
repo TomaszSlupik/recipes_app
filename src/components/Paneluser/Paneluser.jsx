@@ -80,11 +80,13 @@ export default function Paneluser({logoutUser}) {
    const [newNameUser, setNewNameUSer] = useState("")
    const [errNameUser, setErrNameUser] = useState("")
 
-   console.log(newNameUser)
 
    const saveEditUser = () => {
     if (newNameUser === "") {
       setErrNameUser("To pole nie może być puste!")
+    }
+    else if (newNameUser.length < 4) {
+      setErrNameUser("")
     }
     else {
       saveEditUserToDatabase()
@@ -276,14 +278,17 @@ export default function Paneluser({logoutUser}) {
                     )
                     :
                     (
-                      <div></div>
+                      <div className="paneluserShow__mycard-name--ok"></div>
                     )
                   }
-                  
-                  <TextField 
+              
+                      <TextField 
                   onChange={(e) => setNewNameUSer(e.target.value)}
+                  error={newNameUser.length < 4 ? true : false}
                   id="outlined-basic" 
-                  label="Nowa nazwa" variant="outlined" />
+                  label="Nowa nazwa" 
+                  helperText={newNameUser.length < 4 ? "Nazwa musi mieć min. 4 znaki" : "Jest ok!"}
+                  variant="outlined" />
                   </div>
                 </div>
             </div>

@@ -249,8 +249,6 @@ const style = {
   paper: {position: 'relative', display: 'flex', flexDirection: 'column', width: '100%'}
 }
 
-console.log(kind)
-
 
   return (
     <div className='addMeals'>
