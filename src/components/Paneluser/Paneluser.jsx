@@ -56,6 +56,9 @@ export default function Paneluser({logoutUser}) {
     if (nameUser === "") {
       setErrUser("To pole nie może być puste!")
     }
+    else if (nameUser.length < 4) {
+      setErrUser("")
+    }
     else {
       saveDataUserToDatabase()
     }
@@ -238,12 +241,16 @@ export default function Paneluser({logoutUser}) {
                     )
                     :
                     (
-                      <div></div>
+                      <div
+                      className="paneluserShow__mycard-name--ok"
+                      ></div>
                     )
                   }
 
             <TextField 
             id="outlined-basic" 
+            error={nameUser.length < 4 ? true : false}
+            helperText={nameUser.length < 4 ? "Nazwa musi mieć min. 4 znaki" : "Jest ok!"}
             onChange={(e) => setNameUser(e.target.value)} 
             label="Nazwa" variant="outlined" />
             </div>

@@ -199,6 +199,7 @@ const [appetizerHotLabel, setAppetizerHotLabel] = useState("Przystawka ciepła")
 const [appetizerHot, setAppetizerHot] = useState(false)
 const [disabledAppetizerHot, setDisabledAppetizerHot] = useState(false)
 
+const [soupLabel, setSoupLabel] = useState("Zupa")
 const [soup, setSoup] = useState(false)
 const [disabledSoup, setDisabledSoup] = useState(false)
 
@@ -225,6 +226,8 @@ const handlerAcceptFilter = () => {
       mealClickUser.push(`${appetizerCold}Przystawka zimna`)
     case (appetizerHot):
       mealClickUser.push(`${appetizerHot}Przystawka ciepła`)
+    case (soup):
+      mealClickUser.push(`${soup}Zupa`)
     default:
       console.log('Działaa')
   }
@@ -234,6 +237,7 @@ const handlerAcceptFilter = () => {
   }
   const allClickUser = mealClickUser.filter(el).map(el => el.substr(4))
   console.log(allClickUser)
+
 
   const idString = usercurrentID.toString()
   const userIdEqual = userCurrentData.filter(el => el.userId === idString)
@@ -253,7 +257,9 @@ const handlerClickAppetizerHot = (e) => {
   setAppetizerHot(e.target.checked)
 }
 
-
+const handlerClickSoup = (e) => {
+    setSoup(e.target.checked)
+}
 
   return (
     <div className='comunitydetails'>
@@ -325,8 +331,10 @@ const handlerClickAppetizerHot = (e) => {
       onChange={handlerClickAppetizerHot}
       />} label={appetizerHotLabel} />
       <FormControlLabel control={<Checkbox 
+      checked={soup}
+      onChange={handlerClickSoup}
       disabled={disabledSoup}
-      />} label="Zupa" />
+      />} label={soupLabel} />
       <FormControlLabel control={<Checkbox 
       disabled={disabledMainMeal}
        />} label="Danie główne" />
@@ -390,14 +398,11 @@ const handlerClickAppetizerHot = (e) => {
                 </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                <Button 
-                variant='outlined'
-                theme={themeColor}
-                onClick={hadlerClose}>Anuluj</Button>
+            
                 <Button 
                 theme={themeColor}
                 variant='contained'
-                onClick={hadlerClose}>Kontakt</Button>
+                onClick={hadlerClose}>Powrót</Button>
                 </DialogActions>
                 </Dialog>
                 </>
