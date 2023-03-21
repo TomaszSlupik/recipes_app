@@ -84,14 +84,36 @@ export default function Comunitydetails() {
     useEffect(() => {
         readDataRecipe()
         readUserId()
+        idPush()
     }, [])
 
+         // Wszystkie produkty konkretnego użytkownika ze społeczeństwa
+         const [userIdEqual, setuserIdEqual] = useState([])
+         
+         const idPush = () => {
+          const idString = usercurrentID.toString()
+          const id = [...userCurrentData].filter(el => el.userId === idString)
+           setuserIdEqual(id)
+         }
 
+    useEffect(() => {
+      idPush()
+  }, [usercurrentID])
+
+  // W przypadku braku przepisów
+  const [userIdEqualNothing, setuserIdEqualNothing] = useState("")
+  const nothingMeals = () => {
+    setTimeout(() => {
+      setuserIdEqualNothing("Brak przepisów spełniających podane kryteria")
+    }, 4000)
     
-    const idString = usercurrentID.toString()
-    const userIdEqual = userCurrentData.filter(el => el.userId === idString)
+  }
 
+  useEffect(() => {
+    nothingMeals()
+}, [userIdEqual])
 
+  
     // Liczba
     const lengthMeal = userIdEqual.length
     // Nazwa posiłku - danego użytkownika w bazie 
@@ -203,14 +225,21 @@ const [soupLabel, setSoupLabel] = useState("Zupa")
 const [soup, setSoup] = useState(false)
 const [disabledSoup, setDisabledSoup] = useState(false)
 
+const [mainMealLabel, setMainMealLabel] = useState("Danie główne")
 const [mainMeal, setMainMeal] = useState(false)
 const [disabledMainMeal, setDisabledMainMeal] = useState(false)
 
+const [desertLabel, setDesertLabel] = useState("Desery")
 const [desert, setDesert] = useState(false)
 const [disabledDesert, setDisabledDesert] = useState(false)
 
 const handlerOpenKind = () => {
       setOpenKind(true)
+      setAppetizerCold(false)
+      setAppetizerHot(false)
+      setSoup(false)
+      setMainMeal(false)
+      setDesert(false)
 }
 
 const handlerCloseKind = () => {
@@ -228,25 +257,42 @@ const handlerAcceptFilter = () => {
       mealClickUser.push(`${appetizerHot}Przystawka ciepła`)
     case (soup):
       mealClickUser.push(`${soup}Zupa`)
+    case (mainMeal):
+      mealClickUser.push(`${mainMeal}Danie główne`)
+    case (desert):
+      mealClickUser.push(`${desert}Desery`)
     default:
       console.log('Działaa')
   }
+
 
   function el (mealClickUser) {
     return mealClickUser.startsWith('true')
   }
   const allClickUser = mealClickUser.filter(el).map(el => el.substr(4))
-  console.log(allClickUser)
-
-
+  
   const idString = usercurrentID.toString()
   const userIdEqual = userCurrentData.filter(el => el.userId === idString)
   console.log(userIdEqual)
 
+  // Ile  brakuje elementów do tablicy 5 elementowej 
+  const missingItems = []
+  const numberAdd = 5- allClickUser.length 
+  for (let i = 0; i < numberAdd; i++) {
+      missingItems.push(i.toString())
+  }
+  
+  const allItem = allClickUser.concat(missingItems)
 
-  const newArr = userIdEqual.filter(el => el.kind === allClickUser.toString())
-  console.log(newArr)
+  
+  const newArr = userIdEqual.filter(el => el.kind === allItem[0].toString() || el.kind === allItem[1].toString()
+  || el.kind === allItem[2].toString() || el.kind === allItem[3].toString() ||  el.kind === allItem[4].toString())
+
+  setuserIdEqual(newArr)
+  
   setOpenKind(false)
+  
+
 }
 
 const handlerClickAppetizerCold = (e) => {
@@ -260,6 +306,15 @@ const handlerClickAppetizerHot = (e) => {
 const handlerClickSoup = (e) => {
     setSoup(e.target.checked)
 }
+
+const handlerClickMainMeal = (e) => {
+  setMainMeal(e.target.checked)
+}
+
+const handlerClickDesert = (e) => {
+  setDesert(e.target.checked)
+}
+
 
   return (
     <div className='comunitydetails'>
@@ -331,16 +386,20 @@ const handlerClickSoup = (e) => {
       onChange={handlerClickAppetizerHot}
       />} label={appetizerHotLabel} />
       <FormControlLabel control={<Checkbox 
+      disabled={disabledSoup}
       checked={soup}
       onChange={handlerClickSoup}
-      disabled={disabledSoup}
       />} label={soupLabel} />
       <FormControlLabel control={<Checkbox 
       disabled={disabledMainMeal}
-       />} label="Danie główne" />
+      checked={mainMeal}
+      onChange={handlerClickMainMeal}
+       />} label={mainMealLabel} />
       <FormControlLabel control={<Checkbox 
       disabled={disabledDesert}
-       />} label="Desery" />
+      checked={desert}
+      onChange={handlerClickDesert}
+       />} label={desertLabel} />
     </FormGroup>
         </DialogContentText>
         </DialogContent>
@@ -362,53 +421,61 @@ const handlerClickSoup = (e) => {
       <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Grid container rowSpacing={2} columnSpacing={{ xs: 1, sm: 1, md: 2 }} > 
         <ThemeProvider theme={breakpoints}>
-            {
-              userIdEqual.map ((el, index) => {
-                return (
-                  <>
-                  <Grid item xs={12} sm={12} md={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
-                  <Myrecipecard>
-                  <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
-                  <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
-                <ImageBackdrop className="MuiImageBackdrop-root" />
-                    
+          {
+            userIdEqual.length === 0 ?
+            <div className="comunitydetails__box-nothing">{userIdEqualNothing}</div>
+            :
+            (
+              
+                userIdEqual.map ((el, index) => {
+                  return (
+                    <>
+                    <Grid item xs={12} sm={12} md={4} key={index} style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '0em'}}>
+                    <Myrecipecard>
+                    <Card style={{ position: 'relative', width: '100%', height: '100%' }}>
+                    <ImageSrc style={{ backgroundImage: `url(${el.image})` }} />
+                  <ImageBackdrop className="MuiImageBackdrop-root" />
+                      
+                    <Button 
+                    theme={themeColor}
+                    variant='contained'
+                    style={style.btn}
+                    onClick={(e) => handlerOpen(e, el.namemeal, el.prepare)}
+                    >
+                      Zobacz
+                    </Button>
+                  </Card>
+                  </Myrecipecard>
+                  </Grid>
+  
+                  <Dialog
+                  open={openUser}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={hadlerClose}
+                  aria-describedby="alert-dialog-slide-description"
+                  >
+                  <DialogTitle>{`Przepis ${nameMealShowInfo}`}</DialogTitle>
+                  <DialogContent>
+                  <DialogContentText id="alert-dialog-slide-description">
+                    {prepareMealShowInfo}
+                  </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+              
                   <Button 
                   theme={themeColor}
                   variant='contained'
-                  style={style.btn}
-                  onClick={(e) => handlerOpen(e, el.namemeal, el.prepare)}
-                  >
-                    Zobacz
-                  </Button>
-                </Card>
-                </Myrecipecard>
-                </Grid>
-
-                <Dialog
-                open={openUser}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={hadlerClose}
-                aria-describedby="alert-dialog-slide-description"
-                >
-                <DialogTitle>{`Przepis ${nameMealShowInfo}`}</DialogTitle>
-                <DialogContent>
-                <DialogContentText id="alert-dialog-slide-description">
-                  {prepareMealShowInfo}
-                </DialogContentText>
-                </DialogContent>
-                <DialogActions>
+                  onClick={hadlerClose}>Powrót</Button>
+                  </DialogActions>
+                  </Dialog>
+                  </>
+                  )
+                })
+              
+            )
+          }
             
-                <Button 
-                theme={themeColor}
-                variant='contained'
-                onClick={hadlerClose}>Powrót</Button>
-                </DialogActions>
-                </Dialog>
-                </>
-                )
-              })
-            }
         </ThemeProvider>
         </Grid>
         </Box>

@@ -2,6 +2,12 @@
     position: relative;
     width: 100vw;
     height: 100%;
+    &__box {
+        &-nothing {
+            font-size: 2rem;
+            margin-top: 2em;
+        }
+    }
     &__length {
         margin-top: 1em;
         margin-left: 0.4em;
